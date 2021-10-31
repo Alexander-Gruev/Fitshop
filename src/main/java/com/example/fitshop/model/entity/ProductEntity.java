@@ -2,8 +2,10 @@ package com.example.fitshop.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Entity
 @Table(name = "products")
@@ -18,11 +20,14 @@ public class ProductEntity extends BaseEntity {
     @Column(nullable = false)
     private String brandName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
     @Column(nullable = false)
     private String imageUrl;
+
+    @Column
+    private Instant created;
 
     public String getName() {
         return name;
@@ -67,5 +72,10 @@ public class ProductEntity extends BaseEntity {
     public ProductEntity setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
         return this;
+    }
+
+    @PrePersist
+    public void beforeCreate() {
+        this.created = Instant.now();
     }
 }
