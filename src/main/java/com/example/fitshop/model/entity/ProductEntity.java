@@ -1,9 +1,8 @@
 package com.example.fitshop.model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
+import com.example.fitshop.enums.ProductCategoryEnum;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -19,6 +18,9 @@ public class ProductEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String brandName;
+
+    @Enumerated(EnumType.STRING)
+    private ProductCategoryEnum category;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
@@ -56,6 +58,15 @@ public class ProductEntity extends BaseEntity {
         return this;
     }
 
+    public ProductCategoryEnum getCategory() {
+        return category;
+    }
+
+    public ProductEntity setCategory(ProductCategoryEnum category) {
+        this.category = category;
+        return this;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -71,6 +82,15 @@ public class ProductEntity extends BaseEntity {
 
     public ProductEntity setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+        return this;
+    }
+
+    public Instant getCreated() {
+        return created;
+    }
+
+    public ProductEntity setCreated(Instant created) {
+        this.created = created;
         return this;
     }
 
