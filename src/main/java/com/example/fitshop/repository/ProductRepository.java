@@ -13,4 +13,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     @Query("SELECT p FROM ProductEntity p ORDER BY p.price")
     List<ProductEntity> findTheCheapest();
 
+    @Query("SELECT p FROM ProductEntity p ORDER BY p.created")
+    List<ProductEntity> findTheNewest();
+
+
+
 }

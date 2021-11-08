@@ -16,10 +16,10 @@
             <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" th:src="*{imageUrl}" alt="productPicture"/>
             </div>
             <div class="col-md-6">
-                <div class="small mb-1 display-6 font-italic" th:text="*{brand}"></div>
+                <div class="small mb-1 display-4 font-italic" th:text="*{brand}"></div>
                 <h1 class="display-4 fw-bolder" th:text="*{name}"></h1>
                 <div class="fs-5 mb-5">
-                    <span class="text-decoration-underline display-6" th:text="*{price}"></span>
+                    <span class="text-decoration-underline display-4" th:text="|*{price} BGN|"></span>
                 </div>
                 <p class="lead" th:text="*{description}"></p>
                 <div class="d-flex">
