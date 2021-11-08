@@ -26,13 +26,11 @@ public class FitshopUserServiceImpl implements UserDetailsService {
         return this.userRepository
                 .findByUsername(username)
                 .map(this::mapToUserDetails)
-                .orElse(null);
+                .orElseThrow(() -> new UsernameNotFoundException("User with name " + username + " not found"));
     }
 
     private UserDetails mapToUserDetails(UserEntity userEntity) {
-        Set<SimpleGrantedAuthority> authorities =
-
-                userEntity
+        Set<SimpleGrantedAuthority> authorities = userEntity
                         .getRoles()
                         .stream()
                         .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getRoleEnum().name()))
@@ -45,6 +43,4 @@ public class FitshopUserServiceImpl implements UserDetailsService {
         );
 
     }
-
-
 }

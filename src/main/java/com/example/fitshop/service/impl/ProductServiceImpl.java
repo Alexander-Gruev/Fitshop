@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
                             " professional touch to any home gym. Enjoy the added benefit of a professionally-designed" +
                             " exercise chart, developed by a certified personal trainer, to guide you through a variety of" +
                             " effective exercises and show proper form.")
-                    .setImageUrl("/img/bench.jpeg");
+                    .setImageUrl("/images/bench.jpeg");
 
             ProductEntity bike = new ProductEntity();
             bike
@@ -68,7 +68,7 @@ public class ProductServiceImpl implements ProductService {
                             " especially given the instructors can chat with the class. There are daily live" +
                             " classes in the morning, at lunchtime and in the evening, and there’s a sizeable" +
                             " library of on-demand sessions if those times don’t suit you.")
-                    .setImageUrl("/img/bike.jpg");
+                    .setImageUrl("/images/bike.jpg");
 
             ProductEntity bands = new ProductEntity();
             bands
@@ -78,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
                     .setPrice(BigDecimal.valueOf(200))
                     .setDescription("MAX TENSION Set (44kg.) with 5 anti-snap exercise tubes," +
                             " Heavy Duty components, carrying case, DVD and FREE 3 month membership to LIVEEXERCISE website ")
-                    .setImageUrl("/img/bands.jpg");
+                    .setImageUrl("/images/bands.jpg");
 
             ProductEntity dumbbells = new ProductEntity();
             dumbbells
@@ -92,7 +92,7 @@ public class ProductServiceImpl implements ProductService {
                             " Supplied with a coating of preservative to preserve the rubber during storage and transport." +
                             " Please remove this with a cloth prior to use and do not place on carpets or floors until clean.\n" +
                             " Excellent contoured steel grips for maximum comfort during extended workouts ")
-                    .setImageUrl("/img/dumbbells.jpg");
+                    .setImageUrl("/images/dumbbells.jpg");
 
             this.productRepository.saveAll(List.of(bench, bike, bands, dumbbells));
 

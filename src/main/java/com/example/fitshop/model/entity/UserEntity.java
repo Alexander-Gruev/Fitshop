@@ -1,5 +1,7 @@
 package com.example.fitshop.model.entity;
 
+import com.example.fitshop.enums.UserExperienceEnum;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -15,6 +17,9 @@ public class UserEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private UserExperienceEnum experienceLevel;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<UserRoleEntity> roles;
@@ -43,6 +48,15 @@ public class UserEntity extends BaseEntity {
 
     public UserEntity setPassword(String password) {
         this.password = password;
+        return this;
+    }
+
+    public UserExperienceEnum getExperience() {
+        return experienceLevel;
+    }
+
+    public UserEntity setExperience(UserExperienceEnum experienceLevel) {
+        this.experienceLevel = experienceLevel;
         return this;
     }
 
