@@ -52,10 +52,9 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <div class="form-inline my-2 my-lg-0 border px-3">
-                            <div class="text-white">Welcome,
-                                <th:block sec:authentication="name"></th:block>
-                                !
+                        <div class="form-inline my-2 my-lg-0">
+                            <div class="text-dark">Welcome,
+                                <th:block sec:authentication="name"></th:block>!
                             </div>
                             <form th:action="@{/users/logout}" th:method="post">
                                 <input class="btn btn-link nav-link" type="submit" value="Logout">
