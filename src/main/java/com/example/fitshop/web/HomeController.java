@@ -24,4 +24,19 @@ public class HomeController {
     public String about() {
         return "about";
     }
+
+    @GetMapping("/beginners")
+    public String beginners() {
+        return "beginner";
+    }
+
+    @GetMapping("/intermediates")
+    public String intermediates() {
+        return "intermediate";
+    }
+
+    @GetMapping("/advanced")
+    public String advanced() {
+        return "advanced";
+    }
 }

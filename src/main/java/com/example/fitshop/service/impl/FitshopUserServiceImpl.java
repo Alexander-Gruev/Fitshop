@@ -1,5 +1,6 @@
 package com.example.fitshop.service.impl;
 
+import com.example.fitshop.model.custom.FitshopUser;
 import com.example.fitshop.model.entity.UserEntity;
 import com.example.fitshop.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,10 +37,11 @@ public class FitshopUserServiceImpl implements UserDetailsService {
                         .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getRoleEnum().name()))
                         .collect(Collectors.toSet());
 
-        return new User(
+        return new FitshopUser(
                 userEntity.getUsername(),
                 userEntity.getPassword(),
-                authorities
+                authorities,
+                userEntity.getExperience().name()
         );
 
     }
