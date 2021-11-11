@@ -2,16 +2,19 @@ package com.example.fitshop.service.impl;
 
 import com.example.fitshop.enums.ProductCategoryEnum;
 import com.example.fitshop.model.entity.ProductEntity;
+import com.example.fitshop.model.service.ProductServiceModel;
 import com.example.fitshop.model.view.ProductDetailsViewModel;
 import com.example.fitshop.model.view.ProductViewModel;
 import com.example.fitshop.repository.ProductRepository;
+import com.example.fitshop.service.CloudinaryService;
 import com.example.fitshop.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,10 +22,12 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
+    private final CloudinaryService cloudinaryService;
 
-    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper, CloudinaryService cloudinaryService) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
+        this.cloudinaryService = cloudinaryService;
     }
 
     @Override
@@ -113,6 +118,16 @@ public class ProductServiceImpl implements ProductService {
     public ProductDetailsViewModel getById(Long id) {
         // Todo : or else throw
         return this.productRepository.findById(id).map(p -> this.modelMapper.map(p, ProductDetailsViewModel.class)).orElse(null);
+    }
+
+    @Override
+    public void add(ProductServiceModel productServiceModel) throws IOException {
+        MultipartFile picture = productServiceModel.getPicture();
+        String pictureUrl = this.cloudinaryService.uploadPicture(picture);
+        ProductEntity productEntity = this.modelMapper.map(productServiceModel, ProductEntity.class);
+        productEntity.setImageUrl(pictureUrl);
+
+        this.productRepository.save(productEntity);
     }
 
 

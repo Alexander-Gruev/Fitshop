@@ -21,8 +21,13 @@ spring:
       filter:
         enabled: true
 
-
 logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+    #Cloudinary Properties
+cloudinary:
+      api-key: ${CLOUDINARY_API_KEY}
+      api-secret: ${CLOUDINARY_API_SECRET}
+      cloud-name: ${CLOUDINARY_CLOUD_NAME}

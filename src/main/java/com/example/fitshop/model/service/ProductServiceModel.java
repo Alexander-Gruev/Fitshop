@@ -1,10 +1,11 @@
-package com.example.fitshop.model.binding;
+package com.example.fitshop.model.service;
 
 import com.example.fitshop.enums.ProductCategoryEnum;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.math.BigDecimal;
 
-public class ProductAddBindingModel {
+public class ProductServiceModel {
 
     private String name;
     private BigDecimal price;
@@ -17,7 +18,7 @@ public class ProductAddBindingModel {
         return name;
     }
 
-    public ProductAddBindingModel setName(String name) {
+    public ProductServiceModel setName(String name) {
         this.name = name;
         return this;
     }
@@ -26,7 +27,7 @@ public class ProductAddBindingModel {
         return price;
     }
 
-    public ProductAddBindingModel setPrice(BigDecimal price) {
+    public ProductServiceModel setPrice(BigDecimal price) {
         this.price = price;
         return this;
     }
@@ -35,7 +36,7 @@ public class ProductAddBindingModel {
         return brandName;
     }
 
-    public ProductAddBindingModel setBrandName(String brandName) {
+    public ProductServiceModel setBrandName(String brandName) {
         this.brandName = brandName;
         return this;
     }
@@ -44,7 +45,7 @@ public class ProductAddBindingModel {
         return category;
     }
 
-    public ProductAddBindingModel setCategory(ProductCategoryEnum category) {
+    public ProductServiceModel setCategory(ProductCategoryEnum category) {
         this.category = category;
         return this;
     }
@@ -53,7 +54,7 @@ public class ProductAddBindingModel {
         return description;
     }
 
-    public ProductAddBindingModel setDescription(String description) {
+    public ProductServiceModel setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -62,7 +63,7 @@ public class ProductAddBindingModel {
         return picture;
     }
 
-    public ProductAddBindingModel setPicture(MultipartFile picture) {
+    public ProductServiceModel setPicture(MultipartFile picture) {
         this.picture = picture;
         return this;
     }
