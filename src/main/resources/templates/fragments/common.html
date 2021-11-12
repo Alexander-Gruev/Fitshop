@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/styles.css"/>
-    <link rel="icon" type="image/x-icon" href="https://res.cloudinary.com/algruev/image/upload/v1636545225/Fitshop/icons8-gym-48_ivxhq7.png"/>
+    <link rel="icon" type="image/x-icon"
+          href="https://res.cloudinary.com/algruev/image/upload/v1636545225/Fitshop/icons8-gym-48_ivxhq7.png"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
 </head>
 <body>
@@ -30,7 +31,9 @@
                 </th:block>
 
                 <th:block sec:authorize="isAuthenticated()">
-                    <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a class="nav-link" th:href="@{/products/add/}">Add product</a></li>
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a class="nav-link"
+                                                                             th:href="@{/products/add/}">Add product</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
@@ -47,20 +50,19 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown2" href="#" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">Tips</a>
+                           data-bs-toggle="dropdown" aria-expanded="false">More</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" th:href="@{/users/profile}">Profile</a></li>
                             <li><a class="dropdown-item" th:href="@{/beginners}">Beginners</a></li>
                             <li><a class="dropdown-item" th:href="@{/intermediates}">Intermediates</a></li>
                             <li><a class="dropdown-item" th:href="@{/advanced}">Advanced</a></li>
-
                         </ul>
                     </li>
-                    <li class="nav-item"><a th:href="@{/users/profile}">Profile</a></li>
                     <li class="nav-item">
                         <div class="form-inline my-2 my-lg-0">
-<!--                            <div class="text-dark">Welcome,-->
-<!--                                <th:block sec:authentication="name"></th:block>!-->
-<!--                            </div>-->
+                            <!--                            <div class="text-dark">Welcome,-->
+                            <!--                                <th:block sec:authentication="name"></th:block>!-->
+                            <!--                            </div>-->
                             <form th:action="@{/users/logout}" th:method="post">
                                 <input class="btn btn-link nav-link" type="submit" value="Logout">
                             </form>

@@ -1,5 +1,6 @@
 package com.example.fitshop.web;
 
+import com.example.fitshop.enums.ProductCategoryEnum;
 import com.example.fitshop.model.binding.ProductAddBindingModel;
 import com.example.fitshop.model.service.ProductServiceModel;
 import com.example.fitshop.model.view.ProductDetailsViewModel;
@@ -48,5 +49,34 @@ public class ProductController {
         return "redirect:/";
     }
 
+    @GetMapping("/all")
+    public String all(Model model) {
+        model.addAttribute("products", this.productService.getAll());
+        return "products";
+    }
+
+    @GetMapping("/weights")
+    public String weights(Model model) {
+        model.addAttribute("products", this.productService.getByCategory(ProductCategoryEnum.WEIGHTS));
+        return "products";
+    }
+
+    @GetMapping("/cardio")
+    public String cardio(Model model) {
+        model.addAttribute("products", this.productService.getByCategory(ProductCategoryEnum.CARDIO));
+        return "products";
+    }
+
+    @GetMapping("/bands")
+    public String bands(Model model) {
+        model.addAttribute("products", this.productService.getByCategory(ProductCategoryEnum.BAND));
+        return "products";
+    }
+
+    @GetMapping("/new")
+    public String newest(Model model) {
+        model.addAttribute("products", this.productService.getTheNewestEight());
+        return "products";
+    }
 
 }

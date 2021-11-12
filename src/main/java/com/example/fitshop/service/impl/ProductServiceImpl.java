@@ -133,5 +133,29 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository.save(productEntity);
     }
 
+    @Override
+    public List<ProductViewModel> getAll() {
+        return this.productRepository
+                .findAll()
+                .stream()
+                .map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                .collect(Collectors.toList());
+    }
 
+    @Override
+    public List<ProductViewModel> getTheNewestEight() {
+        return this.productRepository
+                .findTheNewest()
+                .stream().map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                .limit(8)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductViewModel> getByCategory(ProductCategoryEnum category) {
+        return this.productRepository
+                .findByCategory(category)
+                .stream().map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                .collect(Collectors.toList());
+    }
 }

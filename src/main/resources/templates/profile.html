@@ -14,7 +14,7 @@
     <div class="row d-flex justify-content-center">
       <div class="col-md-7">
         <div th:object="${userViewModel}" class="profile-card p-3 py-4">
-          <div class="text-center"><img src="https://res.cloudinary.com/algruev/image/upload/v1636738580/Fitshop/default_u7zlpy.jpg" width="100" class="rounded-circle"></div>
+          <div class="text-center"><img src="https://res.cloudinary.com/algruev/image/upload/v1636738580/Fitshop/default_u7zlpy.jpg" width="100" class="rounded-circle" alt="profilePic"></div>
           <div class="text-center mt-3">
             <span class="bg-secondary p-1 px-4 rounded text-white" th:text="*{experienceLevel}"></span>
 <!--            <h5 class="mt-4 mb-0" th:text ="*{fullName}"></h5>-->
@@ -28,8 +28,7 @@
                 nesciunt quis rerum sunt suscipit. </p>
             </div>
             <div class="buttons">
-              <button th:action="@{/}" class="btn btn-outline-primary px-4">Back</button>
-              <!-- <button class="btn btn-primary px-4 ms-3">Contact</button>-->
+              <button  onclick="location.href = '/';" class="btn btn-outline-primary px-4">Back</button>
             </div>
           </div>
         </div>
