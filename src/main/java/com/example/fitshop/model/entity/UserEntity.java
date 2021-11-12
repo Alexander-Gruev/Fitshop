@@ -24,8 +24,6 @@ public class UserEntity extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<UserRoleEntity> roles;
 
-    
-
     public String getUsername() {
         return username;
     }

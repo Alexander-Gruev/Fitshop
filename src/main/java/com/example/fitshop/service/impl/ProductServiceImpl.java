@@ -8,6 +8,7 @@ import com.example.fitshop.model.view.ProductViewModel;
 import com.example.fitshop.repository.ProductRepository;
 import com.example.fitshop.service.CloudinaryService;
 import com.example.fitshop.service.ProductService;
+import com.example.fitshop.web.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -116,8 +117,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDetailsViewModel getById(Long id) {
-        // Todo : or else throw
-        return this.productRepository.findById(id).map(p -> this.modelMapper.map(p, ProductDetailsViewModel.class)).orElse(null);
+        return this.productRepository
+                .findById(id)
+                .map(p -> this.modelMapper.map(p, ProductDetailsViewModel.class))
+                .orElseThrow(() -> new ObjectNotFoundException(id));
     }
 
     @Override
