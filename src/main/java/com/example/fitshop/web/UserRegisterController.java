@@ -3,8 +3,11 @@ package com.example.fitshop.web;
 import com.example.fitshop.enums.UserExperienceEnum;
 import com.example.fitshop.model.binding.UserRegisterBindingModel;
 import com.example.fitshop.model.service.UserRegisterServiceModel;
+import com.example.fitshop.model.view.UserViewModel;
 import com.example.fitshop.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.AuthenticatedPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/users")
@@ -60,6 +64,14 @@ public class UserRegisterController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/profile")
+    public String profile(Principal principal, Model model) {
+        UserViewModel viewModel = this.userService.getViewModelByUsername(principal.getName());
+        model.addAttribute("userViewModel", viewModel);
+        return "profile";
+    }
+
 
 
 

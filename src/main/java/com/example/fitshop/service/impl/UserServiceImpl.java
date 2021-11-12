@@ -5,9 +5,11 @@ import com.example.fitshop.enums.UserRoleEnum;
 import com.example.fitshop.model.entity.UserEntity;
 import com.example.fitshop.model.entity.UserRoleEntity;
 import com.example.fitshop.model.service.UserRegisterServiceModel;
+import com.example.fitshop.model.view.UserViewModel;
 import com.example.fitshop.repository.UserRepository;
 import com.example.fitshop.repository.UserRoleRepository;
 import com.example.fitshop.service.UserService;
+import com.example.fitshop.web.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -96,6 +98,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isUsernameFree(String username) {
         return this.userRepository.findByUsername(username).isEmpty();
+    }
+
+    @Override
+    public UserViewModel getViewModelByUsername(String username) {
+        return this.userRepository
+                .findByUsername(username)
+                .map(u -> this.modelMapper.map(u, UserViewModel.class))
+                .get();
     }
 
 
