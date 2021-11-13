@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="fragments/common :: head">
 </head>
@@ -23,12 +24,12 @@
                 </div>
                 <p class="lead" th:text="*{description}"></p>
                 <div class="d-flex">
-                    <!--                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1"-->
-                    <!--                           style="max-width: 3rem"/>-->
-                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                        <i class="bi-cart-fill me-1"></i>
-                        Add to cart
-                    </button>
+                    <a class="btn btn-outline-dark flex-shrink-0" th:href="@{/offers/new}">Buy</a>
+
+                    <form th:action="@{/products/{id}/delete(id=*{id})}" th:method="DELETE">
+                        <input sec:authorize="hasRole('ADMIN')" type="submit" class="btn btn-outline-dark flex-shrink-0" value="Delete"/>
+                    </form>
+
                 </div>
             </div>
         </div>

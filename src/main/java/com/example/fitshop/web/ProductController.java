@@ -6,6 +6,7 @@ import com.example.fitshop.model.service.ProductServiceModel;
 import com.example.fitshop.model.view.ProductDetailsViewModel;
 import com.example.fitshop.service.ProductService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -77,6 +78,13 @@ public class ProductController {
     public String newest(Model model) {
         model.addAttribute("products", this.productService.getTheNewestEight());
         return "products";
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/{id}/delete")
+    public String delete(@PathVariable Long id) {
+        this.productService.deleteById(id);
+        return "redirect:/products/all";
     }
 
 }

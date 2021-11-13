@@ -24,4 +24,5 @@ public interface ProductService {
 
     List<ProductViewModel> getByCategory(ProductCategoryEnum category);
 
+    void deleteById(Long id);
 }
