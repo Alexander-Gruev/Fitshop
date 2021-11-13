@@ -4,12 +4,13 @@ import com.example.fitshop.enums.UserExperienceEnum;
 import com.example.fitshop.enums.UserRoleEnum;
 import com.example.fitshop.model.entity.UserEntity;
 import com.example.fitshop.model.entity.UserRoleEntity;
+import com.example.fitshop.model.service.UserPictureServiceModel;
 import com.example.fitshop.model.service.UserRegisterServiceModel;
 import com.example.fitshop.model.view.UserViewModel;
 import com.example.fitshop.repository.UserRepository;
 import com.example.fitshop.repository.UserRoleRepository;
+import com.example.fitshop.service.CloudinaryService;
 import com.example.fitshop.service.UserService;
-import com.example.fitshop.web.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Set;
 
 @Service
@@ -28,13 +30,15 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final FitshopUserServiceImpl fitshopUserService;
+    private final CloudinaryService cloudinaryService;
 
-    public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper, FitshopUserServiceImpl fitshopUserService) {
+    public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper, FitshopUserServiceImpl fitshopUserService, CloudinaryService cloudinaryService) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
         this.modelMapper = modelMapper;
         this.fitshopUserService = fitshopUserService;
+        this.cloudinaryService = cloudinaryService;
     }
 
     @Override
@@ -106,6 +110,14 @@ public class UserServiceImpl implements UserService {
                 .findByUsername(username)
                 .map(u -> this.modelMapper.map(u, UserViewModel.class))
                 .get();
+    }
+
+    @Override
+    public void updateWithPicture(UserPictureServiceModel userPictureServiceModel) throws IOException {
+        UserEntity userEntity = this.userRepository.findByUsername(userPictureServiceModel.getUsername()).get();
+        String pictureUrl = this.cloudinaryService.uploadPicture(userPictureServiceModel.getPicture());
+        userEntity.setPictureUrl(pictureUrl);
+        this.userRepository.save(userEntity);
     }
 
 }

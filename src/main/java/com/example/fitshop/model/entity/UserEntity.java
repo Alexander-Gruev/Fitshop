@@ -24,6 +24,9 @@ public class UserEntity extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<UserRoleEntity> roles;
 
+    @Column
+    private String pictureUrl;
+
     public String getUsername() {
         return username;
     }
@@ -66,6 +69,15 @@ public class UserEntity extends BaseEntity {
 
     public UserEntity setRoles(Set<UserRoleEntity> roles) {
         this.roles = roles;
+        return this;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public UserEntity setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
         return this;
     }
 }
