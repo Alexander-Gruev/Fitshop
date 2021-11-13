@@ -37,11 +37,13 @@ public class ProductController {
         return "product-details";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/add")
     public String add() {
         return "product-add";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/add")
     public String add(ProductAddBindingModel productAddBindingModel) throws IOException {
         this.productService
