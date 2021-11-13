@@ -10,87 +10,98 @@
 <nav th:replace="fragments/common :: navbar">
 </nav>
 
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col col-xl-10">
-                <div class="card" style="border-radius: 1rem;">
-                    <div class="row g-0">
-                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                            <div class="card-body p-4 p-lg-5 text-black">
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-xl-6">
+            <div class="card" style="border-radius: 1rem;">
+                <div class="row g-0">
+                    <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                        <div class="card-body p-4 p-lg-5 text-black">
 
-                                <form
-                                        enctype="multipart/form-data"
-                                        th:action="@{/products/add}"
-                                        th:method="POST"
-                                        th:object="${productAddBindingModel}">
+                            <form
+                                    enctype="multipart/form-data"
+                                    th:action="@{/products/add}"
+                                    th:method="POST"
+                                    th:object="${productAddBindingModel}">
 
-                                    <div class="d-flex align-items-center mb-3 pb-1">
-                                        <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                                        <span class="h1 fw-bold mb-0">Fitshop</span>
+                                <div class="d-flex align-items-center mb-3 pb-1">
+                                    <span class="h1 fw-bold mb-0">Fitshop</span>
+                                </div>
+
+                                <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Add product</h5>
+
+                                <div class="form-outline mb-4">
+                                    <input th:field="*{name}"
+                                           type="text" id="name" class="form-control form-control-lg"/>
+                                    <label class="form-label" for="name">Name</label>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <input th:field="*{price}"
+                                           type="text" id="price" class="form-control form-control-lg"/>
+                                    <label class="form-label" for="price">Price</label>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <input th:field="*{brandName}"
+                                           type="text" id="brandName"
+                                           class="form-control form-control-lg"/>
+                                    <label class="form-label" for="brandName">Brand name</label>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <div class="form-group">
+                            <textarea
+                                    th:field="*{description}"
+                                    th:errorclass="is-invalid"
+                                    name="description"
+                                    required minlength="5"
+                                    id="inputDescription"
+                                    class="form-control form-control-lg"
+                                    aria-describedby="inputDescriptionError">
+                            </textarea>
+                                        <small id="inputDescriptionError"
+                                               class="invalid-feedback form-text bg-danger rounded">
+                                            Description length must be more than 5 characters</small>
                                     </div>
 
-                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Add product</h5>
+                                    <label for="inputDescription" class="form-label">Description</label>
+                                </div>
 
-                                        <div class="form-outline mb-4">
-                                            <input th:field="*{name}"
-                                                   type="text" id="name" class="form-control form-control-lg"/>
-                                            <label class="form-label" for="name">Name</label>
-                                        </div>
+                                <div class="form-outline mb-4">
+                                    <select
+                                            th:field="*{category}"
+                                            id="category" class="custom-select">
+                                        <option value="" selected>Select category</option>
+                                        <option value="WEIGHTS">Weights</option>
+                                        <option value="CARDIO">Cardio</option>
+                                        <option value="BAND">Band</option>
+                                    </select>
+                                    <label for="category">Category</label>
+                                </div>
 
-                                        <div class="form-outline mb-4">
-                                            <input th:field="*{price}"
-                                                   type="text" id="price" class="form-control form-control-lg"/>
-                                            <label class="form-label" for="price">Price</label>
-                                        </div>
-
-                                        <div class="form-outline mb-4">
-                                            <input th:field="*{brandName}"
-                                                   type="text" id="brandName"
-                                                   class="form-control form-control-lg"/>
-                                            <label class="form-label" for="brandName">Brand name</label>
-                                        </div>
-
-                                    <div class="form-outline mb-4">
-                                        <input th:field="*{description}"
-                                               type="text" id="description"
-                                               class="form-control form-control-lg"/>
-                                        <label class="form-label" for="description">Description</label>
-                                    </div>
-
-                                    <div class="form-outline mb-4">
-                                        <label for="category">Category</label>
-                                        <select
-                                                th:field="*{category}"
-                                                id="category" class="custom-select">
-                                            <option value="" selected>Select category</option>
-                                            <option value="WEIGHTS">Weights</option>
-                                            <option value="CARDIO">Cardio</option>
-                                            <option value="BAND">Band</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-outline mb-4">
-                                        <input
-                                                th:field="*{picture}"
-                                               type="file" id="picture"
-                                               class="form-control form-control-lg"/>
-                                        <label class="form-label" for="picture">Picture</label>
-                                    </div>
+                                <div class="form-outline mb-4">
+                                    <input
+                                            th:field="*{picture}"
+                                            type="file" id="picture"
+                                            class="form-control form-control-lg"/>
+                                    <label class="form-label" for="picture">Picture</label>
+                                </div>
 
 
-                                    <div class="pt-1 mb-4">
-                                        <input type="submit" class="btn btn-dark btn-lg btn-block" value="Add"/>
-                                    </div>
+                                <div class="pt-1 mb-4">
+                                    <input type="submit" class="btn btn-dark btn-lg btn-block" value="Add"/>
+                                </div>
 
-                                </form>
+                            </form>
 
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 <footer th:replace="fragments/common :: footer">
 </footer>

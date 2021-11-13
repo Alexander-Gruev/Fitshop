@@ -41,7 +41,7 @@ public class FitshopUserServiceImpl implements UserDetailsService {
                 userEntity.getUsername(),
                 userEntity.getPassword(),
                 authorities,
-                userEntity.getExperience().name()
+                userEntity.getExperienceLevel().name()
         );
 
     }

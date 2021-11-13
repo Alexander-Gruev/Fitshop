@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
                     .setUsername("AlGruev")
                     .setPassword(this.passwordEncoder.encode("secret"))
                     .setEmail("realEmail@mail.com")
-                    .setExperience(UserExperienceEnum.ADVANCED)
+                    .setExperienceLevel(UserExperienceEnum.ADVANCED)
                     .setRoles(Set.of(adminRole, userRole));
 
             this.userRepository.save(userEntity);
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
     public void registerAndLoginUser(UserRegisterServiceModel userRegisterServiceModel) {
         UserRoleEntity userRole = this.userRoleRepository.findByRoleEnum(UserRoleEnum.USER);
         UserEntity userEntity = new UserEntity();
-        userEntity.setExperience(userRegisterServiceModel.getExperience())
+        userEntity.setExperienceLevel(userRegisterServiceModel.getExperience())
                 .setUsername(userRegisterServiceModel.getUsername())
                 .setPassword(this.passwordEncoder.encode(userRegisterServiceModel.getPassword()))
                 .setEmail(userRegisterServiceModel.getEmail())
@@ -107,6 +107,5 @@ public class UserServiceImpl implements UserService {
                 .map(u -> this.modelMapper.map(u, UserViewModel.class))
                 .get();
     }
-
 
 }

@@ -68,6 +68,7 @@ public class UserRegisterController {
     @GetMapping("/profile")
     public String profile(Principal principal, Model model) {
         UserViewModel viewModel = this.userService.getViewModelByUsername(principal.getName());
+        System.out.println();
         model.addAttribute("userViewModel", viewModel);
         return "profile";
     }

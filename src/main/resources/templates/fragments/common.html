@@ -53,11 +53,20 @@
                            data-bs-toggle="dropdown" aria-expanded="false">More</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" th:href="@{/users/profile}">Profile</a></li>
-                            <li><a class="dropdown-item" th:href="@{/beginners}">Beginners</a></li>
-                            <li><a class="dropdown-item" th:href="@{/intermediates}">Intermediates</a></li>
-                            <li><a class="dropdown-item" th:href="@{/advanced}">Advanced</a></li>
+                            <th:block th:with="level=${#authentication.getPrincipal().experienceLevel}">
+                                <li th:if="${level} == 'ADVANCED'">
+                                    <a class="dropdown-item" th:href="@{/advanced}">Advanced training</a>
+                                </li>
+                                <li th:if="${level} == 'INTERMEDIATE'">
+                                    <a class="dropdown-item" th:href="@{/intermediates}">Intermediates training</a>
+                                </li>
+                                <li th:if="${level} == 'BEGINNER'">
+                                    <a class="dropdown-item" th:href="@{/beginners}">Beginners training</a>
+                                </li>
+                            </th:block>
                         </ul>
                     </li>
+
                     <li class="nav-item">
                         <div class="form-inline my-2 my-lg-0">
                             <!--                            <div class="text-dark">Welcome,-->

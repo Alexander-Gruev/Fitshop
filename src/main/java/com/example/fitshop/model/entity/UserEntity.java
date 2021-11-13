@@ -51,11 +51,11 @@ public class UserEntity extends BaseEntity {
         return this;
     }
 
-    public UserExperienceEnum getExperience() {
+    public UserExperienceEnum getExperienceLevel() {
         return experienceLevel;
     }
 
-    public UserEntity setExperience(UserExperienceEnum experienceLevel) {
+    public UserEntity setExperienceLevel(UserExperienceEnum experienceLevel) {
         this.experienceLevel = experienceLevel;
         return this;
     }
