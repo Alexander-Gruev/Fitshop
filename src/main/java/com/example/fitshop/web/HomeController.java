@@ -1,6 +1,7 @@
 package com.example.fitshop.web;
 
 import com.example.fitshop.service.ProductService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,16 +26,19 @@ public class HomeController {
         return "about";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/beginners")
     public String beginners() {
         return "beginner";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/intermediates")
     public String intermediates() {
         return "intermediate";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/advanced")
     public String advanced() {
         return "advanced";

@@ -8,6 +8,7 @@ import com.example.fitshop.model.service.UserRegisterServiceModel;
 import com.example.fitshop.model.view.UserViewModel;
 import com.example.fitshop.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -42,12 +43,14 @@ public class UserRegisterController {
         return new UserPictureBindingModel();
     }
 
+    @PreAuthorize("!isAuthenticated()")
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("experienceLevels", UserExperienceEnum.values());
         return "auth-register";
     }
 
+    @PreAuthorize("!isAuthenticated()")
     @PostMapping("/register")
     public String register(@Valid UserRegisterBindingModel userRegisterBindingModel,
                            BindingResult bindingResult,
@@ -78,7 +81,7 @@ public class UserRegisterController {
     }
 
     @PutMapping("/profile/{id}")
-    public String profile(UserPictureBindingModel userPictureBindingModel, Principal principal) throws IOException {
+    public String profile(UserPictureBindingModel userPictureBindingModel, Principal principal, @PathVariable Long id) throws IOException {
         UserPictureServiceModel userPictureServiceModel = new UserPictureServiceModel();
         userPictureServiceModel
                 .setPicture(userPictureBindingModel.getPicture())
@@ -87,4 +90,5 @@ public class UserRegisterController {
         this.userService.updateWithPicture(userPictureServiceModel);
         return "redirect:/users/profile";
     }
+
 }
