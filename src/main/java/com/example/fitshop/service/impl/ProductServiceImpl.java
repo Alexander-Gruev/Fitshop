@@ -10,6 +10,7 @@ import com.example.fitshop.service.CloudinaryService;
 import com.example.fitshop.service.ProductService;
 import com.example.fitshop.web.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -106,6 +107,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Cacheable("cheapestProducts")
     public List<ProductViewModel> getTheFourCheapest() {
         return this.productRepository
                 .findTheCheapest()

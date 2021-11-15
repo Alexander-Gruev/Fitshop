@@ -48,7 +48,7 @@
                                           th:object="${userPictureBindingModel}"
                                           enctype="multipart/form-data">
                                         <input th:field="*{picture}"
-                                               type="file">
+                                               type="file" required>
                                         </input>
                                         <input value="Upload" type="submit"></input>
                                     </form>

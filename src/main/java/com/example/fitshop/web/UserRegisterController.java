@@ -7,6 +7,7 @@ import com.example.fitshop.model.service.UserPictureServiceModel;
 import com.example.fitshop.model.service.UserRegisterServiceModel;
 import com.example.fitshop.model.view.UserViewModel;
 import com.example.fitshop.service.UserService;
+import org.apache.catalina.core.ApplicationContext;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.AuthenticatedPrincipal;
