@@ -31,27 +31,48 @@
                                 <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Add product</h5>
 
                                 <div class="form-outline mb-4">
-                                    <input th:field="*{name}"
-                                           type="text" id="name" class="form-control form-control-lg"/>
                                     <label class="form-label" for="name">Name</label>
+                                    <input th:field="*{name}" required
+                                           th:errorclass="'is-invalid'"
+                                           aria-describedby="nameError"
+                                           type="text" id="name" class="form-control form-control-lg"/>
+
+                                    <small id="nameError"
+                                           class="invalid-feedback rounded form-text">
+                                        Name must be between 2 and 20 symbols.</small>
+
                                 </div>
 
                                 <div class="form-outline mb-4">
-                                    <input th:field="*{price}"
-                                           type="text" id="price" class="form-control form-control-lg"/>
                                     <label class="form-label" for="price">Price</label>
+                                    <input th:field="*{price}" required
+                                           th:errorclass="'is-invalid'"
+                                           aria-describedby="priceError"
+                                           type="number" id="price" class="form-control form-control-lg"/>
+
+                                    <small id="priceError"
+                                           class="invalid-feedback rounded form-text">
+                                        Price must be a positive number.</small>
+
                                 </div>
 
                                 <div class="form-outline mb-4">
-                                    <input th:field="*{brandName}"
+                                    <label class="form-label" for="brandName">Brand name</label>
+                                    <input th:field="*{brandName}" required
+                                           th:errorclass="'is-invalid'"
+                                           aria-describedby="brandNameError"
                                            type="text" id="brandName"
                                            class="form-control form-control-lg"/>
-                                    <label class="form-label" for="brandName">Brand name</label>
+
+                                    <small id="brandNameError"
+                                           class="invalid-feedback rounded form-text">
+                                        Brand name must be between 2 and 20 symbols.</small>
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <div class="form-group">
-                            <textarea
+                                        <label for="inputDescription" class="form-label">Description</label>
+                                        <textarea
                                     th:field="*{description}"
                                     th:errorclass="is-invalid"
                                     name="description"
@@ -61,31 +82,40 @@
                                     aria-describedby="inputDescriptionError">
                             </textarea>
                                         <small id="inputDescriptionError"
-                                               class="invalid-feedback form-text bg-danger rounded">
-                                            Description length must be more than 5 characters</small>
+                                               class="invalid-feedback rounded form-text">
+                                            Description length must be more than 5 symbols.</small>
                                     </div>
 
-                                    <label for="inputDescription" class="form-label">Description</label>
                                 </div>
 
                                 <div class="form-outline mb-4">
+                                    <label for="category">Category</label>
                                     <select
                                             th:field="*{category}"
+                                            th:errorclass="'is-invalid'"
+                                            aria-describedby="categoryError"
+                                            required
                                             id="category" class="custom-select">
                                         <option value="" selected>Select category</option>
                                         <option value="WEIGHTS">Weights</option>
                                         <option value="CARDIO">Cardio</option>
                                         <option value="BAND">Band</option>
                                     </select>
-                                    <label for="category">Category</label>
+                                    <small id="categoryError"
+                                           class="invalid-feedback rounded form-text">Category is required.</small>
                                 </div>
 
                                 <div class="form-outline mb-4">
+                                    <label class="form-label" for="picture">Picture</label>
                                     <input
                                             th:field="*{picture}"
+                                            th:errorclass="'is-invalid'"
+                                            aria-describedby="pictureError"
                                             type="file" id="picture"
+                                            required
                                             class="form-control form-control-lg"/>
-                                    <label class="form-label" for="picture">Picture</label>
+                                    <small id="pictureError"
+                                           class="invalid-feedback rounded form-text">Picture is required.</small>
                                 </div>
 
 

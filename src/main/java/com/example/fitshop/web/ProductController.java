@@ -9,8 +9,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.io.IOException;
 
 @Controller
@@ -46,7 +49,17 @@ public class ProductController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/add")
-    public String add(ProductAddBindingModel productAddBindingModel) throws IOException {
+    public String add(@Valid ProductAddBindingModel productAddBindingModel,
+                      BindingResult bindingResult, RedirectAttributes redirectAttributes) throws IOException {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes
+                    .addFlashAttribute("productAddBindingModel", productAddBindingModel)
+                    .addFlashAttribute("org.springframework.validation.BindingResult.productAddBindingModel", bindingResult);
+
+            return "redirect:/products/add";
+        }
+
         this.productService
                 .add(this.modelMapper.map(productAddBindingModel, ProductServiceModel.class));
 

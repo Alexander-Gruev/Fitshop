@@ -92,8 +92,8 @@
                                     <select
                                             th:field="*{experienceLevel}"
                                             th:errorclass="'is-invalid'"
-                                            required
                                             aria-describedby="confirmPasswordError"
+                                            required
                                             id="level" class="custom-select">
                                         <option value="" selected>Select level</option>
                                         <option th:each="e: ${experienceLevels}" th:value="${e.name()}"
