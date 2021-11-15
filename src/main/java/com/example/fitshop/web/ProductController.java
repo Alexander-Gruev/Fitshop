@@ -63,7 +63,7 @@ public class ProductController {
         this.productService
                 .add(this.modelMapper.map(productAddBindingModel, ProductServiceModel.class));
 
-        return "redirect:/";
+        return "redirect:/products/all";
     }
 
     @PreAuthorize("isAuthenticated()")
