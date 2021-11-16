@@ -4,6 +4,7 @@ import com.example.fitshop.enums.ProductCategoryEnum;
 import com.example.fitshop.model.binding.ProductAddBindingModel;
 import com.example.fitshop.model.service.ProductServiceModel;
 import com.example.fitshop.model.view.ProductDetailsViewModel;
+import com.example.fitshop.scheduler.CacheEvicter;
 import com.example.fitshop.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,10 +23,12 @@ public class ProductController {
 
     private final ProductService productService;
     private final ModelMapper modelMapper;
+    private final CacheEvicter cacheEvicter;
 
-    public ProductController(ProductService productService, ModelMapper modelMapper) {
+    public ProductController(ProductService productService, ModelMapper modelMapper, CacheEvicter cacheEvicter) {
         this.productService = productService;
         this.modelMapper = modelMapper;
+        this.cacheEvicter = cacheEvicter;
     }
 
     @ModelAttribute
@@ -105,6 +108,7 @@ public class ProductController {
     @DeleteMapping("/{id}/delete")
     public String delete(@PathVariable Long id) {
         this.productService.deleteById(id);
+        this.cacheEvicter.evictAllCacheValues();
         return "redirect:/products/all";
     }
 
