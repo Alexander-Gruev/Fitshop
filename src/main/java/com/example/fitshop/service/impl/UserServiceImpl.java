@@ -120,4 +120,9 @@ public class UserServiceImpl implements UserService {
         this.userRepository.save(userEntity);
     }
 
+    @Override
+    public UserEntity getByUsername(String username) {
+        return this.userRepository.findByUsername(username).orElseThrow();
+    }
+
 }

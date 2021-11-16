@@ -21,6 +21,10 @@ public class OrderBindingModel {
     private String address;
 
     @NotBlank
+    @Size(min = 5, max = 20)
+    private String email;
+
+    @NotBlank
     @Size(min = 8, max = 11)
     private String phoneNumber;
 
@@ -60,6 +64,15 @@ public class OrderBindingModel {
 
     public OrderBindingModel setAddress(String address) {
         this.address = address;
+        return this;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public OrderBindingModel setEmail(String email) {
+        this.email = email;
         return this;
     }
 

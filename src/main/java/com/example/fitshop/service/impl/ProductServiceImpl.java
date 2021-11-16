@@ -165,4 +165,14 @@ public class ProductServiceImpl implements ProductService {
     public void deleteById(Long id) {
         this.productRepository.deleteById(id);
     }
+
+    @Override
+    public void deleteByName(String productName) {
+        this.productRepository.deleteByName(productName);
+    }
+
+    @Override
+    public ProductEntity getByName(String name) {
+        return this.productRepository.getByName(name);
+    }
 }

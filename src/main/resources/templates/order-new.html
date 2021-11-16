@@ -18,8 +18,7 @@
                         <div class="card-body p-4 p-lg-5 text-black">
 
                             <form
-                                    enctype="multipart/form-data"
-                                    th:action="@{/orders/newOrder}"
+                                    th:action="@{/orders/new/{name}(name = ${productName})}"
                                     th:method="POST"
                                     th:object="${orderBindingModel}">
 
@@ -27,7 +26,7 @@
                                     <span class="h1 fw-bold mb-0">Fitshop</span>
                                 </div>
 
-                                <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Order product</h5>
+                                <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;" th:text="|Order ${productName}|"></h5>
 
                                 <div class="form-outline mb-4">
                                     <label for="country">Country</label>
@@ -86,7 +85,20 @@
                                                class="invalid-feedback rounded form-text">
                                             Address must be between 5 and 30 symbols.</small>
                                     </div>
+                                </div>
 
+                                <div class="form-outline mb-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="email">Email</label>
+                                        <input th:field="*{email}"
+                                           th:errorclass="is-invalid"
+                                           required
+                                           aria-describedby="emailError"
+                                           type="email" id="email" class="form-control form-control-lg"/>
+
+                                    <small id="emailError"
+                                           class="invalid-feedback rounded form-text">Email must be between 5 and 20 symbols.</small>
+                                    </div>
                                 </div>
 
                                 <div class="form-outline mb-4">

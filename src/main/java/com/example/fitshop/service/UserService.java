@@ -1,5 +1,6 @@
 package com.example.fitshop.service;
 
+import com.example.fitshop.model.entity.UserEntity;
 import com.example.fitshop.model.service.UserPictureServiceModel;
 import com.example.fitshop.model.service.UserRegisterServiceModel;
 import com.example.fitshop.model.view.UserViewModel;
@@ -17,5 +18,8 @@ public interface UserService {
     UserViewModel getViewModelByUsername(String username);
 
     void updateWithPicture(UserPictureServiceModel userPictureServiceModel) throws IOException;
+
+    UserEntity getByUsername(String username);
+
 
 }

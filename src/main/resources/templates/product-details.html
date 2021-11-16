@@ -24,7 +24,7 @@
                 </div>
                 <p class="lead" th:text="*{description}"></p>
                 <div class="d-flex">
-                    <a class="btn btn-outline-dark flex-shrink-0" th:href="@{/orders/new}">Buy</a>
+                    <a class="btn btn-outline-dark flex-shrink-0" th:href="@{/orders/new/{name}(name = *{name})}">Buy</a>
 
                     <form th:action="@{/products/{id}/delete(id=*{id})}" th:method="DELETE">
                         <input sec:authorize="hasRole('ADMIN')" type="submit" class="btn btn-outline-dark flex-shrink-0" value="Delete"/>

@@ -19,5 +19,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     List<ProductEntity> findByCategory(ProductCategoryEnum category);
 
+    Long deleteByName(String name);
 
+    ProductEntity getByName(String name);
 }
+
