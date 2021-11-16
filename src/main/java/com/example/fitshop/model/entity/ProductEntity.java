@@ -31,6 +31,9 @@ public class ProductEntity extends BaseEntity {
     @Column
     private Instant created;
 
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    private OrderEntity order;
+
     public String getName() {
         return name;
     }
@@ -97,5 +100,14 @@ public class ProductEntity extends BaseEntity {
     @PrePersist
     public void beforeCreate() {
         this.created = Instant.now();
+    }
+
+    public OrderEntity getOrder() {
+        return order;
+    }
+
+    public ProductEntity setOrder(OrderEntity order) {
+        this.order = order;
+        return this;
     }
 }
