@@ -5,6 +5,7 @@ import com.example.fitshop.model.service.OrderServiceModel;
 import com.example.fitshop.service.OrderService;
 import com.example.fitshop.service.ProductService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,12 +35,14 @@ public class OrderController {
         return new OrderBindingModel();
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/new/{name}")
     public String newOrder(@PathVariable String name, Model model) {
         model.addAttribute("productName", name);
         return "order-new";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/new/{name}")
     public String newOrder(@Valid OrderBindingModel orderBindingModel,
                            BindingResult bindingResult, RedirectAttributes redirectAttributes,

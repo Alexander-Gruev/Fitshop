@@ -111,4 +111,5 @@ public class ProductController {
         this.cacheEvicter.evictAllCacheValues();
         return "redirect:/products/all";
     }
+
 }

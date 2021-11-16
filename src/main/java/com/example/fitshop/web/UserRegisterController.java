@@ -39,11 +39,6 @@ public class UserRegisterController {
         return new UserRegisterBindingModel();
     }
 
-    @ModelAttribute
-    public UserPictureBindingModel userPictureBindingModel() {
-        return new UserPictureBindingModel();
-    }
-
     @PreAuthorize("!isAuthenticated()")
     @GetMapping("/register")
     public String register(Model model) {
@@ -72,24 +67,6 @@ public class UserRegisterController {
         this.userService.registerAndLoginUser(serviceModel);
 
         return "redirect:/";
-    }
-
-    @GetMapping("/profile")
-    public String profile(Principal principal, Model model) {
-        UserViewModel viewModel = this.userService.getViewModelByUsername(principal.getName());
-        model.addAttribute("userViewModel", viewModel);
-        return "profile";
-    }
-
-    @PutMapping("/profile/{id}")
-    public String profile(UserPictureBindingModel userPictureBindingModel, Principal principal, @PathVariable Long id) throws IOException {
-        UserPictureServiceModel userPictureServiceModel = new UserPictureServiceModel();
-        userPictureServiceModel
-                .setPicture(userPictureBindingModel.getPicture())
-                .setUsername(principal.getName());
-
-        this.userService.updateWithPicture(userPictureServiceModel);
-        return "redirect:/users/profile";
     }
 
 }
