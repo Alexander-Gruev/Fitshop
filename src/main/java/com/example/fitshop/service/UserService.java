@@ -21,5 +21,6 @@ public interface UserService {
 
     UserEntity getByUsername(String username);
 
+    Long getIdByUsername(String username);
 
 }

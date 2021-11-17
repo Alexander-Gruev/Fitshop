@@ -4,12 +4,16 @@ import com.example.fitshop.model.entity.OrderEntity;
 import com.example.fitshop.model.entity.ProductEntity;
 import com.example.fitshop.model.entity.UserEntity;
 import com.example.fitshop.model.service.OrderServiceModel;
+import com.example.fitshop.model.view.OrderViewModel;
 import com.example.fitshop.repository.OrderRepository;
 import com.example.fitshop.service.OrderService;
 import com.example.fitshop.service.ProductService;
 import com.example.fitshop.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -44,5 +48,21 @@ public class OrderServiceImpl implements OrderService {
         return this.orderRepository.getNameById(id);
     }
 
+    @Override
+    public List<OrderViewModel> getAllOrders() {
+        return this.orderRepository
+                .findAll()
+                .stream()
+                .map(o -> {
+                            OrderViewModel orderViewModel = new OrderViewModel();
+                            orderViewModel
+                                    .setProductName(o.getProductName())
+                                    .setClientFullName(o.getClientFullName())
+                                    .setCreated(o.getCreated());
+                            return orderViewModel;
+                        }
+                )
+                .collect(Collectors.toList());
+    }
 
 }

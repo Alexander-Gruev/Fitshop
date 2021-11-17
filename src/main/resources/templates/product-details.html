@@ -26,9 +26,14 @@
                 <div class="d-flex">
                     <a class="btn btn-outline-dark flex-shrink-0" th:href="@{/orders/new/{name}(name = *{name})}">Buy</a>
 
-                    <form th:action="@{/products/{id}/delete(id=*{id})}" th:method="DELETE">
-                        <input sec:authorize="hasRole('ADMIN')" type="submit" class="btn btn-outline-dark flex-shrink-0" value="Delete"/>
+<!--                    <form sec:authorize="hasRole('ADMIN')" th:action="@{/products/{id}/update(id=*{id})}" th:method="PUT">-->
+<!--                        <input type="submit" class="btn btn-outline-dark flex-shrink-0" value="Update"/>-->
+<!--                    </form>-->
+
+                    <form sec:authorize="hasRole('ADMIN')" th:action="@{/products/{id}/delete(id=*{id})}" th:method="DELETE">
+                        <input type="submit" class="btn btn-outline-dark flex-shrink-0" value="Delete"/>
                     </form>
+
 
                 </div>
             </div>
