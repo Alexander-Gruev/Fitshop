@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 
-public class ProductServiceModel {
+public class ProductAddServiceModel {
 
     private String name;
     private BigDecimal price;
@@ -18,7 +18,7 @@ public class ProductServiceModel {
         return name;
     }
 
-    public ProductServiceModel setName(String name) {
+    public ProductAddServiceModel setName(String name) {
         this.name = name;
         return this;
     }
@@ -27,7 +27,7 @@ public class ProductServiceModel {
         return price;
     }
 
-    public ProductServiceModel setPrice(BigDecimal price) {
+    public ProductAddServiceModel setPrice(BigDecimal price) {
         this.price = price;
         return this;
     }
@@ -36,7 +36,7 @@ public class ProductServiceModel {
         return brandName;
     }
 
-    public ProductServiceModel setBrandName(String brandName) {
+    public ProductAddServiceModel setBrandName(String brandName) {
         this.brandName = brandName;
         return this;
     }
@@ -45,7 +45,7 @@ public class ProductServiceModel {
         return category;
     }
 
-    public ProductServiceModel setCategory(ProductCategoryEnum category) {
+    public ProductAddServiceModel setCategory(ProductCategoryEnum category) {
         this.category = category;
         return this;
     }
@@ -54,7 +54,7 @@ public class ProductServiceModel {
         return description;
     }
 
-    public ProductServiceModel setDescription(String description) {
+    public ProductAddServiceModel setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -63,7 +63,7 @@ public class ProductServiceModel {
         return picture;
     }
 
-    public ProductServiceModel setPicture(MultipartFile picture) {
+    public ProductAddServiceModel setPicture(MultipartFile picture) {
         this.picture = picture;
         return this;
     }

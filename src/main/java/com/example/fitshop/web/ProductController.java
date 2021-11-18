@@ -2,7 +2,10 @@ package com.example.fitshop.web;
 
 import com.example.fitshop.enums.ProductCategoryEnum;
 import com.example.fitshop.model.binding.ProductAddBindingModel;
-import com.example.fitshop.model.service.ProductServiceModel;
+import com.example.fitshop.model.binding.ProductUpdateBindingModel;
+import com.example.fitshop.model.entity.ProductEntity;
+import com.example.fitshop.model.service.ProductAddServiceModel;
+import com.example.fitshop.model.service.ProductUpdateServiceModel;
 import com.example.fitshop.model.view.ProductDetailsViewModel;
 import com.example.fitshop.scheduler.CacheEvicter;
 import com.example.fitshop.service.ProductService;
@@ -39,7 +42,7 @@ public class ProductController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/details/{id}")
     public String productsDetails(@PathVariable Long id, Model model) {
-        ProductDetailsViewModel productModel = this.productService.getById(id);
+        ProductDetailsViewModel productModel = this.productService.getViewModelById(id);
         model.addAttribute("productModel", productModel);
         return "product-details";
     }
@@ -64,7 +67,7 @@ public class ProductController {
         }
 
         this.productService
-                .add(this.modelMapper.map(productAddBindingModel, ProductServiceModel.class));
+                .add(this.modelMapper.map(productAddBindingModel, ProductAddServiceModel.class));
 
         return "redirect:/products/all";
     }
@@ -111,5 +114,41 @@ public class ProductController {
         this.cacheEvicter.evictAllCacheValues();
         return "redirect:/products/all";
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/update/{id}")
+    public String update(Model model, @PathVariable Long id) {
+        ProductEntity productEntity = this.productService.getById(id);
+        ProductUpdateBindingModel productUpdateBindingModel = this.modelMapper.map(productEntity, ProductUpdateBindingModel.class);
+
+        model.addAttribute("productUpdateBindingModel", productUpdateBindingModel);
+        return "product-update";
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/update/{id}")
+    public String update(@Valid ProductUpdateBindingModel productUpdateBindingModel,
+                         BindingResult bindingResult, RedirectAttributes redirectAttributes, @PathVariable Long id) throws IOException {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes
+                    .addFlashAttribute("productUpdateBindingModel", productUpdateBindingModel)
+                    .addFlashAttribute("org.springframework.validation.BindingResult.productUpdateBindingModel", bindingResult);
+
+            return "redirect:/products/update/" + id + "/error";
+        }
+
+        this.productService
+                .update(this.modelMapper.map(productUpdateBindingModel, ProductUpdateServiceModel.class));
+
+        return "redirect:/products/all";
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/update/{id}/error")
+    public String updateError() {
+        return "product-update";
+    }
+
 
 }

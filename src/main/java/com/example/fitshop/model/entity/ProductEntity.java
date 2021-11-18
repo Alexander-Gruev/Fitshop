@@ -31,7 +31,7 @@ public class ProductEntity extends BaseEntity {
     @Column
     private Instant created;
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private OrderEntity order;
 
     public String getName() {

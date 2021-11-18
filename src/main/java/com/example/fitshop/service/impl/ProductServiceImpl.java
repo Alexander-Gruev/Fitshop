@@ -2,7 +2,8 @@ package com.example.fitshop.service.impl;
 
 import com.example.fitshop.enums.ProductCategoryEnum;
 import com.example.fitshop.model.entity.ProductEntity;
-import com.example.fitshop.model.service.ProductServiceModel;
+import com.example.fitshop.model.service.ProductAddServiceModel;
+import com.example.fitshop.model.service.ProductUpdateServiceModel;
 import com.example.fitshop.model.view.ProductDetailsViewModel;
 import com.example.fitshop.model.view.ProductViewModel;
 import com.example.fitshop.repository.ProductRepository;
@@ -118,7 +119,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDetailsViewModel getById(Long id) {
+    public ProductDetailsViewModel getViewModelById(Long id) {
         return this.productRepository
                 .findById(id)
                 .map(p -> this.modelMapper.map(p, ProductDetailsViewModel.class))
@@ -126,10 +127,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void add(ProductServiceModel productServiceModel) throws IOException {
-        MultipartFile picture = productServiceModel.getPicture();
+    public ProductEntity getById(Long id) {
+        return this.productRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void add(ProductAddServiceModel productAddServiceModel) throws IOException {
+        MultipartFile picture = productAddServiceModel.getPicture();
         String pictureUrl = this.cloudinaryService.uploadPicture(picture);
-        ProductEntity productEntity = this.modelMapper.map(productServiceModel, ProductEntity.class);
+        ProductEntity productEntity = this.modelMapper.map(productAddServiceModel, ProductEntity.class);
         productEntity.setImageUrl(pictureUrl);
 
         this.productRepository.save(productEntity);
@@ -174,5 +180,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductEntity getByName(String name) {
         return this.productRepository.getByName(name);
+    }
+
+    @Override
+    public void update(ProductUpdateServiceModel productUpdateServiceModel) {
+        ProductEntity productEntity = this.productRepository.findById(productUpdateServiceModel.getId()).orElse(null);
+        productEntity
+                .setDescription(productUpdateServiceModel.getDescription())
+                .setPrice(productUpdateServiceModel.getPrice())
+                .setName(productUpdateServiceModel.getName());
+
+        this.productRepository.save(productEntity);
     }
 }

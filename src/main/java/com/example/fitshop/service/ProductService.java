@@ -2,7 +2,8 @@ package com.example.fitshop.service;
 
 import com.example.fitshop.enums.ProductCategoryEnum;
 import com.example.fitshop.model.entity.ProductEntity;
-import com.example.fitshop.model.service.ProductServiceModel;
+import com.example.fitshop.model.service.ProductAddServiceModel;
+import com.example.fitshop.model.service.ProductUpdateServiceModel;
 import com.example.fitshop.model.view.ProductDetailsViewModel;
 import com.example.fitshop.model.view.ProductViewModel;
 
@@ -15,9 +16,11 @@ public interface ProductService {
 
     List<ProductViewModel> getTheFourCheapest();
 
-    ProductDetailsViewModel getById(Long id);
+    ProductDetailsViewModel getViewModelById(Long id);
 
-    void add(ProductServiceModel productServiceModel) throws IOException;
+    ProductEntity getById(Long id);
+
+    void add(ProductAddServiceModel productAddServiceModel) throws IOException;
 
     List<ProductViewModel> getAll();
 
@@ -30,5 +33,7 @@ public interface ProductService {
     void deleteByName(String productName);
 
     ProductEntity getByName(String name);
+
+    void update(ProductUpdateServiceModel productUpdateServiceModel);
 
 }
