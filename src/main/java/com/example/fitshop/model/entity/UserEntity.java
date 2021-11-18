@@ -27,6 +27,9 @@ public class UserEntity extends BaseEntity {
     @Column
     private String pictureUrl;
 
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    private Set<OrderEntity> orders;
+
     public String getUsername() {
         return username;
     }
@@ -78,6 +81,15 @@ public class UserEntity extends BaseEntity {
 
     public UserEntity setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
+        return this;
+    }
+
+    public Set<OrderEntity> getOrders() {
+        return orders;
+    }
+
+    public UserEntity setOrders(Set<OrderEntity> orders) {
+        this.orders = orders;
         return this;
     }
 }

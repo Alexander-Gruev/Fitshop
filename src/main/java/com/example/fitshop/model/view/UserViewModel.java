@@ -1,6 +1,10 @@
 package com.example.fitshop.model.view;
 
 import com.example.fitshop.enums.UserExperienceEnum;
+import com.example.fitshop.model.entity.OrderEntity;
+import com.example.fitshop.model.entity.ProductEntity;
+
+import java.util.Set;
 
 public class UserViewModel {
 
@@ -8,6 +12,7 @@ public class UserViewModel {
     private String username;
     private UserExperienceEnum experienceLevel;
     private String pictureUrl;
+    private Set<OrderEntity> orders;
 
 
     public Long getId() {
@@ -43,6 +48,15 @@ public class UserViewModel {
 
     public UserViewModel setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
+        return this;
+    }
+
+    public Set<OrderEntity> getOrders() {
+        return orders;
+    }
+
+    public UserViewModel setOrders(Set<OrderEntity> orders) {
+        this.orders = orders;
         return this;
     }
 }

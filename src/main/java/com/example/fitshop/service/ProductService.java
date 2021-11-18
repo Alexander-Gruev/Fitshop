@@ -30,8 +30,6 @@ public interface ProductService {
 
     void deleteById(Long id);
 
-    void deleteByName(String productName);
-
     ProductEntity getByName(String name);
 
     void update(ProductUpdateServiceModel productUpdateServiceModel);

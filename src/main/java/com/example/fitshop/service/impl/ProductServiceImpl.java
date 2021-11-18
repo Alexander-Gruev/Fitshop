@@ -169,12 +169,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteById(Long id) {
+//        this.cloudinaryService.deletePicture(publicId);
         this.productRepository.deleteById(id);
-    }
-
-    @Override
-    public void deleteByName(String productName) {
-        this.productRepository.deleteByName(productName);
     }
 
     @Override
