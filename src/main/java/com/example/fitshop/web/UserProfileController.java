@@ -33,7 +33,7 @@ public class UserProfileController {
         return "profile";
     }
 
-    @PutMapping("/profile/{id}")
+    @PatchMapping("/profile/{id}")
     public String profile(UserPictureBindingModel userPictureBindingModel, Principal principal, @PathVariable Long id) throws IOException {
         UserPictureServiceModel userPictureServiceModel = new UserPictureServiceModel();
         userPictureServiceModel

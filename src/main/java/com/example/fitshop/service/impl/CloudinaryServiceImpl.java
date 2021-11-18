@@ -29,7 +29,7 @@ public class CloudinaryServiceImpl implements CloudinaryService {
             @SuppressWarnings("unchecked")
             Map<String, String> result = this.cloudinary
                     .uploader()
-                    .upload(temp, Map.of());
+                    .upload(temp, Map.of("folder", "Fitshop"));
 
             return result
                     .getOrDefault(
