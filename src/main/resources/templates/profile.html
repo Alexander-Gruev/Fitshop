@@ -64,13 +64,16 @@
                               th:text="*{experienceLevel.name()}"></span>
                         <h5 class="mt-2 mb-0" th:text="*{username}"></h5>
                         <div class="px-4 mt-5">
-                         <h2>Your orders: </h2>
-                            <ol>
-                                <li th:each="o : *{orders}" th:text="|${o.productName} by ${o.product.brandName}
+                            <th:block th:if="*{!orders.isEmpty()}">
+                                <h2>Your orders: </h2>
+                                <ol>
+                                    <li th:each="o : *{orders}" th:text="|${o.productName} by ${o.product.brandName}
                                 for address: ${o.address}. Order created at ${#dates.format(o.created, 'hh:mm-dd-MMM-yyyy')}|">
-                                </li>
+                                    </li>
+                                </ol>
+                            </th:block>
 
-                            </ol>
+                            <h2 th:if="*{orders.isEmpty()}">You haven't ordered any products yet.</h2>
                         </div>
                         <div class="buttons">
                             <button onclick="location.href = '/';" class="btn btn-outline-primary px-4">Back</button>
