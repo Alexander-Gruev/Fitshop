@@ -4,6 +4,7 @@ import com.example.fitshop.model.entity.OrderEntity;
 import com.example.fitshop.model.entity.ProductEntity;
 import com.example.fitshop.model.entity.UserEntity;
 import com.example.fitshop.model.service.OrderServiceModel;
+import com.example.fitshop.model.view.OrderProfileViewModel;
 import com.example.fitshop.model.view.OrderViewModel;
 import com.example.fitshop.repository.OrderRepository;
 import com.example.fitshop.service.OrderService;
@@ -62,6 +63,24 @@ public class OrderServiceImpl implements OrderService {
                             return orderViewModel;
                         }
                 )
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OrderProfileViewModel> getUserOrdersByUsername(String username) {
+        return this.orderRepository
+                .findAllByClient_Username(username)
+                .stream()
+                .map(o -> {
+                    OrderProfileViewModel orderProfileViewModel = new OrderProfileViewModel();
+                    orderProfileViewModel
+                            .setAddress(o.getAddress())
+                            .setProductName(o.getProductName())
+                            .setProductBrandName(o.getProduct().getBrandName())
+                            .setCreated(o.getCreated());
+
+                    return orderProfileViewModel;
+                })
                 .collect(Collectors.toList());
     }
 

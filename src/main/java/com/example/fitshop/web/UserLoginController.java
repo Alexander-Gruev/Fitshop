@@ -28,5 +28,4 @@ public class UserLoginController {
         redirectAttributes.addFlashAttribute("username", username);
         return "redirect:/users/login";
     }
-
 }
