@@ -26,19 +26,16 @@ public class HomeController {
         return "about";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/beginners")
     public String beginners() {
         return "beginner";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/intermediates")
     public String intermediates() {
         return "intermediate";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/advanced")
     public String advanced() {
         return "advanced";

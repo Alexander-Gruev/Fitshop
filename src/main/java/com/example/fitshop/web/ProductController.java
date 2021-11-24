@@ -72,35 +72,30 @@ public class ProductController {
         return "redirect:/products/all";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/all")
     public String all(Model model) {
         model.addAttribute("products", this.productService.getAll());
         return "products";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/weights")
     public String weights(Model model) {
         model.addAttribute("products", this.productService.getByCategory(ProductCategoryEnum.WEIGHTS));
         return "products";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/cardio")
     public String cardio(Model model) {
         model.addAttribute("products", this.productService.getByCategory(ProductCategoryEnum.CARDIO));
         return "products";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/bands")
     public String bands(Model model) {
         model.addAttribute("products", this.productService.getByCategory(ProductCategoryEnum.BAND));
         return "products";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/new")
     public String newest(Model model) {
         model.addAttribute("products", this.productService.getTheNewestEight());

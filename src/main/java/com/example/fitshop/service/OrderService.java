@@ -10,8 +10,6 @@ public interface OrderService {
 
     void addOrder(OrderServiceModel orderServiceModel);
 
-    String getProductNameById(Long id);
-
     List<OrderViewModel> getAllOrders();
 
     List<OrderProfileViewModel> getUserOrdersByUsername(String username);

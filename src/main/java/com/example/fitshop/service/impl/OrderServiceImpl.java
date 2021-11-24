@@ -45,11 +45,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String getProductNameById(Long id) {
-        return this.orderRepository.getNameById(id);
-    }
-
-    @Override
     public List<OrderViewModel> getAllOrders() {
         return this.orderRepository
                 .findAll()

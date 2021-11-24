@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
         return this.userRepository
                 .findByUsername(username)
                 .map(u -> this.modelMapper.map(u, UserViewModel.class))
-                .get();
+                .orElseThrow();
     }
 
     @Override
@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Long getIdByUsername(String username) {
-        return this.userRepository.findByUsername(username).get().getId();
+        return this.userRepository.findByUsername(username).orElseThrow().getId();
     }
 
 }

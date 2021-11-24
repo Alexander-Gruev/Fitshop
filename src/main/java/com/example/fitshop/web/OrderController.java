@@ -35,14 +35,12 @@ public class OrderController {
         return new OrderBindingModel();
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/new/{name}")
     public String newOrder(@PathVariable String name, Model model) {
         model.addAttribute("productName", name);
         return "order-new";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("/new/{name}")
     public String newOrder(@Valid OrderBindingModel orderBindingModel,
                            BindingResult bindingResult, RedirectAttributes redirectAttributes,

@@ -128,7 +128,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductEntity getById(Long id) {
-        return this.productRepository.findById(id).orElse(null);
+        return this.productRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id));
     }
 
     @Override
@@ -169,7 +169,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteById(Long id) {
-//        this.cloudinaryService.deletePicture(publicId);
         this.productRepository.deleteById(id);
     }
 
@@ -180,7 +179,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void update(ProductUpdateServiceModel productUpdateServiceModel) {
-        ProductEntity productEntity = this.productRepository.findById(productUpdateServiceModel.getId()).orElse(null);
+        ProductEntity productEntity = this.productRepository
+                .findById(productUpdateServiceModel.getId())
+                .orElseThrow(() -> new ObjectNotFoundException(productUpdateServiceModel.getId()));
+
         productEntity
                 .setDescription(productUpdateServiceModel.getDescription())
                 .setPrice(productUpdateServiceModel.getPrice())
