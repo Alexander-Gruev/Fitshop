@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateWithPicture(UserPictureServiceModel userPictureServiceModel) throws IOException {
-        UserEntity userEntity = this.userRepository.findByUsername(userPictureServiceModel.getUsername()).get();
+        UserEntity userEntity = this.userRepository.findByUsername(userPictureServiceModel.getUsername()).orElseThrow();
         String pictureUrl = this.cloudinaryService.uploadPicture(userPictureServiceModel.getPicture());
         userEntity.setPictureUrl(pictureUrl);
         this.userRepository.save(userEntity);

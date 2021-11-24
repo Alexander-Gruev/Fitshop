@@ -17,7 +17,6 @@ public class UserLoginController {
         return "auth-login";
     }
 
-    @PreAuthorize("!isAuthenticated()")
     @PostMapping("/users/login-error")
     public String failedLogin(
             @ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
