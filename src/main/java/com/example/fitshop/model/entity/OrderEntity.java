@@ -32,7 +32,7 @@ public class OrderEntity extends BaseEntity {
     @ManyToOne
     private UserEntity client;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     private ProductEntity product;
 
     @Column

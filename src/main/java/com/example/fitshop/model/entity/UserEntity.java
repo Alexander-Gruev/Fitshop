@@ -21,7 +21,7 @@ public class UserEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserExperienceEnum experienceLevel;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private Set<UserRoleEntity> roles;
 
     @Column
