@@ -66,7 +66,6 @@ class FitshopUserServiceImplTest {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(", "));
 
-
         Assertions.assertEquals(user.getUsername(), actual.getUsername());
         Assertions.assertEquals(expectedRoles, actualRoles);
     }

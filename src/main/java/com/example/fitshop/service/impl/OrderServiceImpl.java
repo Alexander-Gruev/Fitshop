@@ -36,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void addOrder(OrderServiceModel orderServiceModel) {
+    public OrderEntity addOrder(OrderServiceModel orderServiceModel) {
         OrderEntity orderEntity = this.modelMapper.map(orderServiceModel, OrderEntity.class);
         UserEntity client = this.userService.getByUsername(orderServiceModel.getClientUsername());
         ProductEntity product = this.productService.getByName(orderServiceModel.getProductName());
@@ -47,6 +47,8 @@ public class OrderServiceImpl implements OrderService {
 
         this.orderRepository.save(orderEntity);
         this.productRepository.save(product.setOrdered(true));
+
+        return orderEntity;
     }
 
     @Override

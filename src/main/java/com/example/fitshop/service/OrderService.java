@@ -1,5 +1,6 @@
 package com.example.fitshop.service;
 
+import com.example.fitshop.model.entity.OrderEntity;
 import com.example.fitshop.model.service.OrderServiceModel;
 import com.example.fitshop.model.view.OrderProfileViewModel;
 import com.example.fitshop.model.view.OrderViewModel;
@@ -8,7 +9,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    void addOrder(OrderServiceModel orderServiceModel);
+    OrderEntity addOrder(OrderServiceModel orderServiceModel);
 
     List<OrderViewModel> getAllOrders();
 
