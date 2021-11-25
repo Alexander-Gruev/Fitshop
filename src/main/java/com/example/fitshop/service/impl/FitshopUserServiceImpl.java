@@ -45,6 +45,5 @@ public class FitshopUserServiceImpl implements UserDetailsService {
                 authorities,
                 userEntity.getExperienceLevel().name()
         );
-
     }
 }

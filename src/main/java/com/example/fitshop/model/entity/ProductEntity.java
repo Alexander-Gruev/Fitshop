@@ -34,6 +34,8 @@ public class ProductEntity extends BaseEntity {
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private OrderEntity order;
 
+    private boolean isOrdered;
+
     public String getName() {
         return name;
     }
@@ -108,6 +110,15 @@ public class ProductEntity extends BaseEntity {
 
     public ProductEntity setOrder(OrderEntity order) {
         this.order = order;
+        return this;
+    }
+
+    public boolean isOrdered() {
+        return isOrdered;
+    }
+
+    public ProductEntity setOrdered(boolean ordered) {
+        isOrdered = ordered;
         return this;
     }
 }

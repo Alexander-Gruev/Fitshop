@@ -7,6 +7,7 @@ import com.example.fitshop.model.service.OrderServiceModel;
 import com.example.fitshop.model.view.OrderProfileViewModel;
 import com.example.fitshop.model.view.OrderViewModel;
 import com.example.fitshop.repository.OrderRepository;
+import com.example.fitshop.repository.ProductRepository;
 import com.example.fitshop.service.OrderService;
 import com.example.fitshop.service.ProductService;
 import com.example.fitshop.service.UserService;
@@ -24,12 +25,14 @@ public class OrderServiceImpl implements OrderService {
     private final UserService userService;
     private final ProductService productService;
     private final ModelMapper modelMapper;
+    private final ProductRepository productRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, ProductService productService, ModelMapper modelMapper) {
+    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, ProductService productService, ModelMapper modelMapper, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
         this.userService = userService;
         this.productService = productService;
         this.modelMapper = modelMapper;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -43,6 +46,7 @@ public class OrderServiceImpl implements OrderService {
                 .setProduct(product);
 
         this.orderRepository.save(orderEntity);
+        this.productRepository.save(product.setOrdered(true));
     }
 
     @Override
