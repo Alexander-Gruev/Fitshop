@@ -5,6 +5,8 @@ import com.example.fitshop.model.view.OrderViewModel;
 import com.example.fitshop.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,8 +32,8 @@ public class OrdersRestController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<OrderProfileViewModel>> getUserOrders(Principal principal) {
-        List<OrderProfileViewModel> userOrders = this.orderService.getUserOrdersByUsername(principal.getName());
+    public ResponseEntity<List<OrderProfileViewModel>> getUserOrders(@AuthenticationPrincipal User user) {
+        List<OrderProfileViewModel> userOrders = this.orderService.getUserOrdersByUsername(user.getUsername());
         return ResponseEntity.ok(userOrders);
     }
 
