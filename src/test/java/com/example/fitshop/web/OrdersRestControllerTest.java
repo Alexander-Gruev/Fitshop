@@ -32,7 +32,6 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WithMockUser("username")
 @SpringBootTest
 @AutoConfigureMockMvc
 class OrdersRestControllerTest {
@@ -91,6 +90,7 @@ class OrdersRestControllerTest {
     }
 
     @Test
+    @WithMockUser("username")
     void testGetUserOrdersShouldReturnCorrectOrders() throws Exception {
         OrderEntity order = initOrderWithProduct();
         testUser.setOrders(Set.of(order));

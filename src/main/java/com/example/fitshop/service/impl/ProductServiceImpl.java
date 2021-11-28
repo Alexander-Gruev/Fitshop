@@ -103,7 +103,6 @@ public class ProductServiceImpl implements ProductService {
                     .setImageUrl("https://res.cloudinary.com/algruev/image/upload/v1636545225/Fitshop/dumbbells_mjsqs0.jpg");
 
             this.productRepository.saveAll(List.of(bench, bike, bands, dumbbells));
-
         }
     }
 
