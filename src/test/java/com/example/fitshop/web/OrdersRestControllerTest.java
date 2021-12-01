@@ -75,6 +75,7 @@ class OrdersRestControllerTest {
         productRepository.deleteAll();
         orderRepository.deleteAll();
         userRepository.deleteAll();
+        userRoleRepository.deleteAll();
     }
 
 

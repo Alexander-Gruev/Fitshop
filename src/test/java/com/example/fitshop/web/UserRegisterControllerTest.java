@@ -1,7 +1,10 @@
 package com.example.fitshop.web;
 
+import com.example.fitshop.enums.UserRoleEnum;
 import com.example.fitshop.model.entity.UserEntity;
+import com.example.fitshop.model.entity.UserRoleEntity;
 import com.example.fitshop.repository.UserRepository;
+import com.example.fitshop.repository.UserRoleRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +37,13 @@ class UserRegisterControllerTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserRoleRepository userRoleRepository;
+
     @AfterEach
     void tearDown() {
         userRepository.deleteAll();
+        userRoleRepository.deleteAll();
     }
 
     @Test
@@ -49,6 +56,11 @@ class UserRegisterControllerTest {
 
     @Test
     void testPostRegisterShouldRegisterUserWithCorrectFields() throws Exception {
+        if (userRoleRepository.count() == 0) {
+            UserRoleEntity userRole = new UserRoleEntity().setRoleEnum(UserRoleEnum.USER);
+            userRoleRepository.save(userRole);
+        }
+
         mockMvc.perform(post("/users/register").
                         param("username", TEST_USER_USERNAME).
                         param("email", TEST_USER_EMAIL).
@@ -58,8 +70,6 @@ class UserRegisterControllerTest {
                         with(csrf()).
                         contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection());
-
-        assertEquals(2, userRepository.count()); // #1 is Admin user
 
         Optional<UserEntity> newUserOpt = userRepository.findByUsername(TEST_USER_USERNAME);
 

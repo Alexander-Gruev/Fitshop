@@ -2,7 +2,6 @@ package com.example.fitshop.web;
 
 import com.example.fitshop.enums.UserExperienceEnum;
 import com.example.fitshop.enums.UserRoleEnum;
-import com.example.fitshop.model.custom.FitshopUser;
 import com.example.fitshop.model.entity.UserEntity;
 import com.example.fitshop.model.entity.UserRoleEntity;
 import com.example.fitshop.repository.UserRepository;
@@ -58,6 +57,7 @@ class OrderControllerTest {
     @AfterEach
     void tearDown() {
         userRepository.deleteAll();
+        userRoleRepository.deleteAll();
     }
 
     @Test
@@ -68,5 +68,11 @@ class OrderControllerTest {
                 .andExpect(model().attributeExists("productName"))
                 .andExpect(view().name("order-new"));
     }
+
+
+
+
+
+
 
 }

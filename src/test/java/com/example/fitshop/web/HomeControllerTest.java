@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import javax.annotation.PostConstruct;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,6 +56,7 @@ class HomeControllerTest {
     @AfterEach
     void tearDown() {
         userRepository.deleteAll();
+        userRoleRepository.deleteAll();
     }
 
     @Test
