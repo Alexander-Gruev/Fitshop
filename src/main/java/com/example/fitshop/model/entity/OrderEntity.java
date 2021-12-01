@@ -2,7 +2,6 @@ package com.example.fitshop.model.entity;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "orders")

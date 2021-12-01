@@ -6,6 +6,8 @@ import com.example.fitshop.service.OrderService;
 import com.example.fitshop.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,7 +47,7 @@ public class OrderController {
     public String newOrder(@Valid OrderBindingModel orderBindingModel,
                            BindingResult bindingResult, RedirectAttributes redirectAttributes,
                            @PathVariable("name") String productName,
-                           Principal principal) {
+                           @AuthenticationPrincipal User user) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes
@@ -58,7 +60,7 @@ public class OrderController {
         OrderServiceModel orderServiceModel = this.modelMapper.map(orderBindingModel, OrderServiceModel.class);
         orderServiceModel
                 .setProductName(productName)
-                .setClientUsername(principal.getName());
+                .setClientUsername(user.getUsername());
 
         this.orderService.addOrder(orderServiceModel);
 

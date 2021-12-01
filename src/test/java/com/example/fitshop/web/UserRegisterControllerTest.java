@@ -20,16 +20,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
+import static com.example.fitshop.GlobalTestConstants.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 class UserRegisterControllerTest {
 
-    private static final String TEST_USER_USERNAME = "pesho0123";
-    private static final String TEST_USER_EMAIL = "pesho@abv.bg";
-    private static final String TEST_USER_LEVEL = "ADVANCED";
-    private static final String TEST_USER_PASS = "12345";
+    private static final String REGISTER_VIEW_NAME = "auth-register";
 
     @Autowired
     private MockMvc mockMvc;
@@ -50,7 +47,7 @@ class UserRegisterControllerTest {
     void testGetRegisterShouldReturnCorrectView() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/users/register"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("auth-register"))
+                .andExpect(view().name(REGISTER_VIEW_NAME))
                 .andExpect(model().attributeExists("experienceLevels"));
     }
 
@@ -62,33 +59,33 @@ class UserRegisterControllerTest {
         }
 
         mockMvc.perform(post("/users/register").
-                        param("username", TEST_USER_USERNAME).
-                        param("email", TEST_USER_EMAIL).
-                        param("experienceLevel", TEST_USER_LEVEL).
-                        param("password", TEST_USER_PASS).
-                        param("confirmPassword", TEST_USER_PASS).
+                        param("username", USERNAME).
+                        param("email", EMAIL).
+                        param("experienceLevel", USER_LEVEL_STRING).
+                        param("password", PASSWORD).
+                        param("confirmPassword", PASSWORD).
                         with(csrf()).
                         contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection());
 
-        Optional<UserEntity> newUserOpt = userRepository.findByUsername(TEST_USER_USERNAME);
+        Optional<UserEntity> newUserOpt = userRepository.findByUsername(USERNAME);
 
         assertTrue(newUserOpt.isPresent());
 
         UserEntity newUser = newUserOpt.get();
-        assertEquals(newUser.getExperienceLevel().name(), TEST_USER_LEVEL);
-        assertEquals(newUser.getUsername(), TEST_USER_USERNAME);
-        assertEquals(newUser.getEmail(), TEST_USER_EMAIL);
+        assertEquals(newUser.getExperienceLevel().name(), USER_LEVEL_STRING);
+        assertEquals(newUser.getUsername(), USERNAME);
+        assertEquals(newUser.getEmail(), EMAIL);
     }
 
     @Test
     void testPostRegisterShouldFailInCaseOfInvalidFields() throws Exception {
         mockMvc.perform(post("/users/register").
                         param("username", "").
-                        param("email", TEST_USER_EMAIL).
-                        param("experienceLevel", TEST_USER_LEVEL).
-                        param("password", TEST_USER_PASS).
-                        param("confirmPassword", TEST_USER_PASS).
+                        param("email", EMAIL).
+                        param("experienceLevel", USER_LEVEL_STRING).
+                        param("password", PASSWORD).
+                        param("confirmPassword", PASSWORD).
                         with(csrf()).
                         contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection());

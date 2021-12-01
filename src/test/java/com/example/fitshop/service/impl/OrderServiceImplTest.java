@@ -18,6 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import static com.example.fitshop.GlobalTestConstants.*;
 
 import java.time.Instant;
 import java.util.List;
@@ -50,8 +51,8 @@ class OrderServiceImplTest {
 
     @Test
     void testAddOrderReturnsCorrectOrderEntity() {
-        UserEntity client = new UserEntity().setUsername("clientUsername");
-        ProductEntity product = new ProductEntity().setName("productName");
+        UserEntity client = new UserEntity().setUsername(USERNAME);
+        ProductEntity product = new ProductEntity().setName(PRODUCT_NAME);
 
         OrderServiceModel orderServiceModel = new OrderServiceModel();
         orderServiceModel
@@ -71,16 +72,16 @@ class OrderServiceImplTest {
     @Test
     void testGetAllOrdersShouldReturnCorrectListOfOrderViewModels() {
         OrderEntity order = new OrderEntity()
-                .setProductName("product1")
-                .setClientFullName("client1")
-                .setCreated(Instant.parse("2018-11-30T18:35:24.00Z"));
+                .setProductName(PRODUCT_NAME)
+                .setClientFullName(CLIENT_FULL_NAME)
+                .setCreated(Instant.parse(CREATED_STRING));
 
         Mockito.when(orderRepository.findAll()).thenReturn(List.of(order));
 
         OrderViewModel expected = new OrderViewModel()
-                .setProductName("product1")
-                .setClientFullName("client1")
-                .setCreated(Instant.parse("2018-11-30T18:35:24.00Z"));
+                .setProductName(PRODUCT_NAME)
+                .setClientFullName(CLIENT_FULL_NAME)
+                .setCreated(Instant.parse(CREATED_STRING));
 
         assertTrue(new ReflectionEquals(expected).matches(serviceToTest.getAllOrders().get(0)));
     }
@@ -88,20 +89,20 @@ class OrderServiceImplTest {
     @Test
     void testGetUserOrdersByUsernameShouldReturnCorrectListOfOrderProfileViewModels() {
         OrderEntity order = new OrderEntity()
-                .setAddress("address")
-                .setProductName("productName")
-                .setProduct(new ProductEntity().setBrandName("brandName"))
-                .setCreated(Instant.parse("2018-11-30T18:35:24.00Z"));
+                .setAddress(ORDER_ADDRESS)
+                .setProductName(PRODUCT_NAME)
+                .setProduct(new ProductEntity().setBrandName(PRODUCT_BRAND_NAME))
+                .setCreated(Instant.parse(CREATED_STRING));
 
-        Mockito.when(orderRepository.findAllByClient_Username("username")).thenReturn(List.of(order));
+        Mockito.when(orderRepository.findAllByClient_Username(USERNAME)).thenReturn(List.of(order));
 
         OrderProfileViewModel expected = new OrderProfileViewModel()
-                .setAddress("address")
-                .setProductName("productName")
-                .setProductBrandName("brandName")
-                .setCreated(Instant.parse("2018-11-30T18:35:24.00Z"));
+                .setAddress(ORDER_ADDRESS)
+                .setProductName(PRODUCT_NAME)
+                .setProductBrandName(PRODUCT_BRAND_NAME)
+                .setCreated(Instant.parse(CREATED_STRING));
 
-        assertTrue(new ReflectionEquals(expected).matches(serviceToTest.getUserOrdersByUsername("username").get(0)));
+        assertTrue(new ReflectionEquals(expected).matches(serviceToTest.getUserOrdersByUsername(USERNAME).get(0)));
     }
 
 }

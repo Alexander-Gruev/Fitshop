@@ -1,9 +1,6 @@
 package com.example.fitshop.web;
 
-import com.example.fitshop.enums.ProductCategoryEnum;
-import com.example.fitshop.enums.UserExperienceEnum;
 import com.example.fitshop.enums.UserRoleEnum;
-import com.example.fitshop.model.custom.FitshopUser;
 import com.example.fitshop.model.entity.OrderEntity;
 import com.example.fitshop.model.entity.ProductEntity;
 import com.example.fitshop.model.entity.UserEntity;
@@ -18,19 +15,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static com.example.fitshop.GlobalTestConstants.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -61,10 +56,10 @@ class OrdersRestControllerTest {
         userRoleRepository.save(adminRole);
 
         testUser = new UserEntity()
-                .setUsername("username")
-                .setEmail("email")
-                .setExperienceLevel(UserExperienceEnum.ADVANCED)
-                .setPassword("password")
+                .setUsername(USERNAME)
+                .setEmail(EMAIL)
+                .setExperienceLevel(USER_EXPERIENCE)
+                .setPassword(PASSWORD)
                 .setRoles(Set.of(adminRole, userRole));
 
         testUser = userRepository.save(testUser);
@@ -86,59 +81,50 @@ class OrdersRestControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/orders/all"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$.[0].productName", is("productName")))
-                .andExpect(jsonPath("$.[0].clientFullName", is("clientFullName")));
+                .andExpect(jsonPath("$.[0].productName", is(PRODUCT_NAME)))
+                .andExpect(jsonPath("$.[0].clientFullName", is(ORDER_CLIENT_FULL_NAME)));
     }
 
     @Test
-    @WithMockUser("username")
+    @WithMockUser(value = USERNAME)
     void testGetUserOrdersShouldReturnCorrectOrders() throws Exception {
         OrderEntity order = initOrderWithProduct();
         testUser.setOrders(Set.of(order));
         testUser = userRepository.save(testUser);
 
-        Set<SimpleGrantedAuthority> authorities = testUser
-                .getRoles()
-                .stream()
-                .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getRoleEnum().name()))
-                .collect(Collectors.toSet());
-
-        FitshopUser fitshopUser = new FitshopUser("username", "password", authorities, "ADVANCED");
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/orders/user", fitshopUser))
+        mockMvc.perform(MockMvcRequestBuilders.get("/orders/user"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$.[0].productName", is("productName")))
-                .andExpect(jsonPath("$.[0].productBrandName", is("brandName")))
-                .andExpect(jsonPath("$.[0].address", is("address")));
+                .andExpect(jsonPath("$.[0].productName", is(PRODUCT_NAME)))
+                .andExpect(jsonPath("$.[0].productBrandName", is(PRODUCT_BRAND_NAME)))
+                .andExpect(jsonPath("$.[0].address", is(ORDER_ADDRESS)));
     }
 
     private OrderEntity initOrderWithProduct() {
         ProductEntity product = new ProductEntity()
-                .setBrandName("brandName")
-                .setName("productName")
-                .setDescription("desc")
-                .setImageUrl("imgUrl")
-                .setPrice(BigDecimal.TEN)
-                .setCategory(ProductCategoryEnum.WEIGHTS);
+                .setBrandName(PRODUCT_BRAND_NAME)
+                .setName(PRODUCT_NAME)
+                .setDescription(PRODUCT_DESCRIPTION)
+                .setImageUrl(PRODUCT_IMG_URL)
+                .setPrice(PRODUCT_PRICE)
+                .setCategory(PRODUCT_CATEGORY);
 
         product = productRepository.save(product);
 
         OrderEntity order = new OrderEntity()
-                .setCountry("Germany")
+                .setCountry(ORDER_COUNTRY)
                 .setClient(testUser)
                 .setProduct(product)
-                .setPaymentMethod("Credit card")
-                .setPhoneNumber("123456789")
-                .setPostcode("1000")
-                .setAddress("address")
-                .setProductName("productName")
-                .setClientFullName("clientFullName")
-                .setCreated(Instant.parse("2018-11-30T18:35:24.00Z"));
+                .setPaymentMethod(ORDER_PAYMENT_METHOD)
+                .setPhoneNumber(ORDER_PHONE_NUMBER)
+                .setPostcode(ORDER_POSTCODE)
+                .setAddress(ORDER_ADDRESS)
+                .setProductName(PRODUCT_NAME)
+                .setClientFullName(ORDER_CLIENT_FULL_NAME)
+                .setCreated(Instant.parse(CREATED_STRING));
 
         order = orderRepository.save(order);
         return order;
     }
-
 
 }
