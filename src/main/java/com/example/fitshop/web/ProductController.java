@@ -135,6 +135,7 @@ public class ProductController {
 
         this.productService
                 .update(this.modelMapper.map(productUpdateBindingModel, ProductUpdateServiceModel.class));
+        this.cacheEvicter.evictAllCacheValues();
 
         return "redirect:/products/all";
     }
