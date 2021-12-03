@@ -11,6 +11,7 @@ import com.example.fitshop.repository.UserRepository;
 import com.example.fitshop.repository.UserRoleRepository;
 import com.example.fitshop.service.CloudinaryService;
 import com.example.fitshop.service.UserService;
+import com.example.fitshop.web.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -109,12 +110,15 @@ public class UserServiceImpl implements UserService {
         return this.userRepository
                 .findByUsername(username)
                 .map(u -> this.modelMapper.map(u, UserViewModel.class))
-                .orElseThrow();
+                .orElseThrow(() -> new ObjectNotFoundException("User with username " + username + " does not exist!"));
     }
 
     @Override
     public void updateWithPicture(UserPictureServiceModel userPictureServiceModel) throws IOException {
-        UserEntity userEntity = this.userRepository.findByUsername(userPictureServiceModel.getUsername()).orElseThrow();
+        UserEntity userEntity = this.userRepository
+                .findByUsername(userPictureServiceModel.getUsername())
+                .orElseThrow(() -> new ObjectNotFoundException("User with username " + userPictureServiceModel.getUsername() + " does not exist!"));
+
         String pictureUrl = this.cloudinaryService.uploadPicture(userPictureServiceModel.getPicture());
         userEntity.setPictureUrl(pictureUrl);
         this.userRepository.save(userEntity);
@@ -122,12 +126,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity getByUsername(String username) {
-        return this.userRepository.findByUsername(username).orElseThrow();
+        return this.userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with username " + username + " does not exist!"));
     }
 
     @Override
     public Long getIdByUsername(String username) {
-        return this.userRepository.findByUsername(username).orElseThrow().getId();
+        return this.userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with username " + username + " does not exist!")).getId();
     }
 
 }

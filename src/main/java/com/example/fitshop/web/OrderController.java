@@ -24,12 +24,10 @@ public class OrderController {
 
     private final OrderService orderService;
     private final ModelMapper modelMapper;
-    private final ProductService productService;
 
-    public OrderController(OrderService orderService, ModelMapper modelMapper, ProductService productService) {
+    public OrderController(OrderService orderService, ModelMapper modelMapper) {
         this.orderService = orderService;
         this.modelMapper = modelMapper;
-        this.productService = productService;
     }
 
     @ModelAttribute

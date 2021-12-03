@@ -9,7 +9,7 @@ import com.example.fitshop.model.view.ProductViewModel;
 import com.example.fitshop.repository.ProductRepository;
 import com.example.fitshop.service.CloudinaryService;
 import com.example.fitshop.service.ProductService;
-import com.example.fitshop.web.ObjectNotFoundException;
+import com.example.fitshop.web.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -122,12 +122,12 @@ public class ProductServiceImpl implements ProductService {
         return this.productRepository
                 .findById(id)
                 .map(p -> this.modelMapper.map(p, ProductDetailsViewModel.class))
-                .orElseThrow(() -> new ObjectNotFoundException(id));
+                .orElseThrow(() -> new ObjectNotFoundException("Product with id " + id + " does not exist!"));
     }
 
     @Override
     public ProductEntity getById(Long id) {
-        return this.productRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id));
+        return this.productRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Product with id " + id + " does not exist!"));
     }
 
     @Override
@@ -181,7 +181,7 @@ public class ProductServiceImpl implements ProductService {
     public void update(ProductUpdateServiceModel productUpdateServiceModel) {
         ProductEntity productEntity = this.productRepository
                 .findById(productUpdateServiceModel.getId())
-                .orElseThrow(() -> new ObjectNotFoundException(productUpdateServiceModel.getId()));
+                .orElseThrow(() -> new ObjectNotFoundException("Product with id " + productUpdateServiceModel.getId() + " does not exist!"));
 
         productEntity
                 .setDescription(productUpdateServiceModel.getDescription())
