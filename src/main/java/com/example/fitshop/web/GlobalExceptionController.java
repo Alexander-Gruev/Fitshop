@@ -13,16 +13,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@ControllerAdvice
 public class GlobalExceptionController implements ErrorController {
-
-    @ExceptionHandler(ObjectNotFoundException.class)
-    public ModelAndView handleNotFoundException(ObjectNotFoundException e) {
-        ModelAndView modelAndView = new ModelAndView("object-not-found");
-        modelAndView.addObject("objectId", e.getObjectId());
-        modelAndView.setStatus(HttpStatus.NOT_FOUND);
-        return modelAndView;
-    }
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
@@ -36,4 +27,5 @@ public class GlobalExceptionController implements ErrorController {
             return "error-page";
         }
     }
+
 }

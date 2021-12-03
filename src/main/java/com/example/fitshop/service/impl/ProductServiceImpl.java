@@ -162,7 +162,8 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductViewModel> getByCategory(ProductCategoryEnum category) {
         return this.productRepository
                 .findByCategory(category)
-                .stream().map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                .stream()
+                .map(p -> this.modelMapper.map(p, ProductViewModel.class))
                 .collect(Collectors.toList());
     }
 
