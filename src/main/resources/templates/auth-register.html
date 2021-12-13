@@ -46,7 +46,7 @@
                                     <label class="form-label" for="username">Username</label>
 
                                     <small id="usernameError"
-                                           class="invalid-feedback rounded form-text">Username must be between 3 and 20 symbols.</small>
+                                           class="invalid-feedback rounded form-text" th:errors="*{username}"></small>
                                 </div>
 
                                 <div class="form-outline mb-4">
@@ -58,7 +58,7 @@
                                     <label class="form-label" for="email">Email</label>
 
                                     <small id="emailError"
-                                           class="invalid-feedback rounded form-text">Email must be between 5 and 40 symbols.</small>
+                                           class="invalid-feedback rounded form-text" th:errors="*{email}"></small>
                                 </div>
 
                                 <div class="form-outline mb-4">

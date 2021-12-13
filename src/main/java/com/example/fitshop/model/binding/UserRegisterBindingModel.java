@@ -1,6 +1,7 @@
 package com.example.fitshop.model.binding;
 
 import com.example.fitshop.enums.UserExperienceEnum;
+import com.example.fitshop.model.validator.UniqueEmail;
 import com.example.fitshop.model.validator.UniqueUsername;
 
 import javax.validation.constraints.NotBlank;
@@ -9,13 +10,14 @@ import javax.validation.constraints.Size;
 
 public class UserRegisterBindingModel {
 
-    @UniqueUsername
+    @UniqueUsername(message = "Username is already taken!")
     @NotBlank
-    @Size(min = 3, max = 20)
+    @Size(min = 3, max = 20, message = "Username must be between 3 and 20 symbols.")
     private String username;
 
+    @UniqueEmail(message = "Email is already taken!")
     @NotBlank
-    @Size(min = 5, max = 40)
+    @Size(min = 5, max = 40, message = "Email must be between 5 and 40 symbols.")
     private String email;
 
     @NotNull
