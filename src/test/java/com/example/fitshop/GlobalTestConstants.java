@@ -21,10 +21,10 @@ public class GlobalTestConstants {
 
     public static final String ORDER_COUNTRY = "Germany";
     public static final String ORDER_CLIENT_FULL_NAME = "Pesho Petrov";
-    public static final String ORDER_POSTCODE = "1000";
+    public static final int ORDER_POSTCODE = 1000;
     public static final String ORDER_ADDRESS = "Vitoshka 15";
     public static final String ORDER_EMAIL = "pesho@abv.bg";
-    public static final String ORDER_PHONE_NUMBER = "123456789";
+    public static final Long ORDER_PHONE_NUMBER = 123456789L;
     public static final String ORDER_PAYMENT_METHOD = "Cash";
 
     public static final String NEW_ORDER_VIEW_NAME = "order-new";

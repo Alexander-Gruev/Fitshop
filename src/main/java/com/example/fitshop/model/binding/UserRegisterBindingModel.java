@@ -15,7 +15,7 @@ public class UserRegisterBindingModel {
     private String username;
 
     @NotBlank
-    @Size(min = 5, max = 20)
+    @Size(min = 5, max = 40)
     private String email;
 
     @NotNull

@@ -5,10 +5,10 @@ public class OrderServiceModel {
     private String productName;
     private String country;
     private String clientFullName;
-    private String postcode;
+    private int postcode;
     private String address;
     private String email;
-    private String phoneNumber;
+    private Long phoneNumber;
     private String paymentMethod;
     private String clientUsername;
 
@@ -39,11 +39,11 @@ public class OrderServiceModel {
         return this;
     }
 
-    public String getPostcode() {
+    public int getPostcode() {
         return postcode;
     }
 
-    public OrderServiceModel setPostcode(String postcode) {
+    public OrderServiceModel setPostcode(int postcode) {
         this.postcode = postcode;
         return this;
     }
@@ -66,11 +66,11 @@ public class OrderServiceModel {
         return this;
     }
 
-    public String getPhoneNumber() {
+    public Long getPhoneNumber() {
         return phoneNumber;
     }
 
-    public OrderServiceModel setPhoneNumber(String phoneNumber) {
+    public OrderServiceModel setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
         return this;
     }

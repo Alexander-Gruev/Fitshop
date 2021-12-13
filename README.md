@@ -2,7 +2,7 @@
 
 
 My individual project for the SoftUni Spring Advanced course.
-Try it out - https://fitshop-web-app.herokuapp.com/
+Try it out(v1) - https://fitshop-web-app.herokuapp.com/
 
 This is a Spring MVC application that: 
 

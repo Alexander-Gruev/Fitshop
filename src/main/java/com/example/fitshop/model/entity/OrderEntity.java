@@ -17,13 +17,13 @@ public class OrderEntity extends BaseEntity {
     private String clientFullName;
 
     @Column(nullable = false)
-    private String postcode;
+    private int postcode;
 
     @Column(nullable = false)
     private String address;
 
     @Column(nullable = false)
-    private String phoneNumber;
+    private Long phoneNumber;
 
     @Column(nullable = false)
     private String paymentMethod;
@@ -64,11 +64,11 @@ public class OrderEntity extends BaseEntity {
         return this;
     }
 
-    public String getPostcode() {
+    public int getPostcode() {
         return postcode;
     }
 
-    public OrderEntity setPostcode(String postcode) {
+    public OrderEntity setPostcode(int postcode) {
         this.postcode = postcode;
         return this;
     }
@@ -82,11 +82,11 @@ public class OrderEntity extends BaseEntity {
         return this;
     }
 
-    public String getPhoneNumber() {
+    public Long getPhoneNumber() {
         return phoneNumber;
     }
 
-    public OrderEntity setPhoneNumber(String phoneNumber) {
+    public OrderEntity setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
         return this;
     }

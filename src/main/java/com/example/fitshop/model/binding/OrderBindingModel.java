@@ -1,6 +1,8 @@
 package com.example.fitshop.model.binding;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 public class OrderBindingModel {
@@ -12,9 +14,10 @@ public class OrderBindingModel {
     @Size(min = 4, max = 40)
     private String clientFullName;
 
-    @NotBlank
+    @Positive
+    @NotNull
     @Size(max = 4)
-    private String postcode;
+    private int postcode;
 
     @NotBlank
     @Size(min = 5, max = 30)
@@ -24,9 +27,10 @@ public class OrderBindingModel {
     @Size(min = 5, max = 20)
     private String email;
 
-    @NotBlank
+    @Positive
+    @NotNull
     @Size(min = 8, max = 11)
-    private String phoneNumber;
+    private Long phoneNumber;
 
     @NotBlank
     private String paymentMethod;
@@ -49,11 +53,11 @@ public class OrderBindingModel {
         return this;
     }
 
-    public String getPostcode() {
+    public int getPostcode() {
         return postcode;
     }
 
-    public OrderBindingModel setPostcode(String postcode) {
+    public OrderBindingModel setPostcode(int postcode) {
         this.postcode = postcode;
         return this;
     }
@@ -76,11 +80,11 @@ public class OrderBindingModel {
         return this;
     }
 
-    public String getPhoneNumber() {
+    public Long getPhoneNumber() {
         return phoneNumber;
     }
 
-    public OrderBindingModel setPhoneNumber(String phoneNumber) {
+    public OrderBindingModel setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
         return this;
     }

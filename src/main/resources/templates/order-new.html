@@ -26,7 +26,8 @@
                                     <span class="h1 fw-bold mb-0">Fitshop</span>
                                 </div>
 
-                                <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;" th:text="|Order ${productName}|"></h5>
+                                <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;"
+                                    th:text="|Order ${productName}|"></h5>
 
                                 <div class="form-outline mb-4">
                                     <label for="country">Country</label>
@@ -48,7 +49,8 @@
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="clientFullName">Full name</label>
-                                    <input th:field="*{clientFullName}" required
+                                    <input th:field="*{clientFullName}"
+                                           required minlength="4" maxlength="40"
                                            th:errorclass="'is-invalid'"
                                            aria-describedby="clientFullNameError"
                                            type="text" id="clientFullName" class="form-control form-control-lg"/>
@@ -61,21 +63,23 @@
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="postcode">Postcode</label>
-                                    <input th:field="*{postcode}" required
+                                    <input th:field="*{postcode}"
+                                           required maxlength="4"
                                            th:errorclass="'is-invalid'"
                                            aria-describedby="postcodeError"
-                                           type="text" id="postcode"
+                                           type="number" id="postcode"
                                            class="form-control form-control-lg"/>
 
                                     <small id="postcodeError"
                                            class="invalid-feedback rounded form-text">
-                                        Post code must be 4 symbols or fewer.</small>
+                                        Post code must be 4 symbols or fewer and must be a number.</small>
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <div class="form-group">
                                         <label for="address" class="form-label">Address</label>
-                                        <input th:field="*{address}" required
+                                        <input th:field="*{address}"
+                                               required minlength="5" maxlength="30"
                                                th:errorclass="'is-invalid'"
                                                aria-describedby="addressError"
                                                type="text" id="address"
@@ -91,28 +95,30 @@
                                     <div class="form-group">
                                         <label class="form-label" for="email">Email</label>
                                         <input th:field="*{email}"
-                                           th:errorclass="is-invalid"
-                                           required
-                                           aria-describedby="emailError"
-                                           type="email" id="email" class="form-control form-control-lg"/>
+                                               th:errorclass="is-invalid"
+                                               required minlength="5" maxlength="40"
+                                               aria-describedby="emailError"
+                                               type="email" id="email" class="form-control form-control-lg"/>
 
-                                    <small id="emailError"
-                                           class="invalid-feedback rounded form-text">Email must be between 5 and 20 symbols.</small>
+                                        <small id="emailError"
+                                               class="invalid-feedback rounded form-text">Email must be between 5 and 40
+                                            symbols.</small>
                                     </div>
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <div class="form-group">
                                         <label for="phoneNumber" class="form-label">Phone number</label>
-                                        <input th:field="*{phoneNumber}" required
+                                        <input th:field="*{phoneNumber}"
+                                               required minlength="8" maxlength="11"
                                                th:errorclass="'is-invalid'"
                                                aria-describedby="addressError"
-                                               type="text" id="phoneNumber"
+                                               type="number" id="phoneNumber"
                                                class="form-control form-control-lg"/>
 
                                         <small id="phoneNumberError"
-                                        class="invalid-feedback rounded form-text">
-                                            Phone number must be between 8 and 11 digits.</small>
+                                               class="invalid-feedback rounded form-text">
+                                            Phone number must be between 8 and 11 digits and must be a number.</small>
                                     </div>
 
                                 </div>
@@ -131,7 +137,8 @@
                                         <option value="Electronic bank transfer">Electronic bank transfer</option>
                                     </select>
                                     <small id="paymentMethodError"
-                                           class="invalid-feedback rounded form-text">Payment method is required.</small>
+                                           class="invalid-feedback rounded form-text">Payment method is
+                                        required.</small>
                                 </div>
 
                                 <div class="pt-1 mb-4">

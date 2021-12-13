@@ -32,7 +32,8 @@
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="name">Name</label>
-                                    <input th:field="*{name}" required
+                                    <input th:field="*{name}"
+                                           required minlength="2" maxlength="20"
                                            th:errorclass="'is-invalid'"
                                            aria-describedby="nameError"
                                            type="text" id="name" class="form-control form-control-lg"/>
@@ -45,7 +46,8 @@
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="price">Price</label>
-                                    <input th:field="*{price}" required
+                                    <input th:field="*{price}"
+                                           required
                                            th:errorclass="'is-invalid'"
                                            aria-describedby="priceError"
                                            type="number" id="price" class="form-control form-control-lg"/>
@@ -58,7 +60,8 @@
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="brandName">Brand name</label>
-                                    <input th:field="*{brandName}" required
+                                    <input th:field="*{brandName}"
+                                           required minlength="2" maxlength="20"
                                            th:errorclass="'is-invalid'"
                                            aria-describedby="brandNameError"
                                            type="text" id="brandName"
