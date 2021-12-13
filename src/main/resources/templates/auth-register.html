@@ -71,7 +71,8 @@
                                     <label class="form-label" for="password">Password</label>
 
                                     <small id="passwordError"
-                                           class="invalid-feedback rounded form-text">Password must be between 3 and 20 symbols.</small>
+                                           class="invalid-feedback rounded form-text">Password must be between 3 and 20
+                                        symbols.</small>
                                 </div>
 
                                 <div class="form-outline mb-4">
@@ -84,8 +85,13 @@
                                     <label class="form-label" for="confirmPassword">Confirm Password</label>
 
                                     <small id="confirmPasswordError"
-                                           class="invalid-feedback rounded form-text">Confirm password must be between 3 and 20 symbols.</small>
+                                           class="invalid-feedback rounded form-text">Confirm password must be between 3
+                                        and 20 symbols.</small>
                                 </div>
+
+                                <p th:if="${diffPasswords}" class="errors alert alert-danger">
+                                    Passwords don't match!
+                                </p>
 
                                 <div class="form-outline mb-4">
                                     <label for="level">Level</label>
@@ -101,8 +107,8 @@
                                     </select>
 
                                     <small id="levelError"
-                                           class="invalid-feedback rounded form-text">Experience level is required.</small>
-
+                                           class="invalid-feedback rounded form-text">Experience level is
+                                        required.</small>
                                 </div>
 
                                 <div class="pt-1 mb-4">
