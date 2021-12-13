@@ -64,4 +64,9 @@ public class OrderController {
 
         return "redirect:/users/profile";
     }
+
+    @GetMapping("/all")
+    public String all() {
+        return "orders-all";
+    }
 }

@@ -25,7 +25,7 @@ public class OrdersRestController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/all")
+    @GetMapping("/all/api")
     public ResponseEntity<List<OrderViewModel>> getAllOrders() {
         List<OrderViewModel> orders = this.orderService.getAllOrders();
         return ResponseEntity.ok(orders);

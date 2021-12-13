@@ -1,9 +1,8 @@
 package com.example.fitshop.model.binding;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.*;
 
 public class OrderBindingModel {
 
@@ -16,7 +15,6 @@ public class OrderBindingModel {
 
     @Positive
     @NotNull
-    @Size(max = 4)
     private int postcode;
 
     @NotBlank
@@ -29,7 +27,6 @@ public class OrderBindingModel {
 
     @Positive
     @NotNull
-    @Size(min = 8, max = 11)
     private Long phoneNumber;
 
     @NotBlank
