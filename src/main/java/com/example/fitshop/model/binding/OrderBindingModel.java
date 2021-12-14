@@ -1,7 +1,5 @@
 package com.example.fitshop.model.binding;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.validation.constraints.*;
 
 public class OrderBindingModel {
