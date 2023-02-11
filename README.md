@@ -1,8 +1,4 @@
-# Fitshop 
-
-
-My individual project for the SoftUni Spring Advanced course.
-Try it out(V2) - https://fitshop-web-app.herokuapp.com/
+# Fitshop
 
 This is a Spring MVC application that: 
 
