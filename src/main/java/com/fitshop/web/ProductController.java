@@ -9,6 +9,7 @@ import com.fitshop.model.service.ProductUpdateServiceModel;
 import com.fitshop.model.view.ProductDetailsViewModel;
 import com.fitshop.scheduler.CacheEvicter;
 import com.fitshop.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -22,17 +23,12 @@ import java.io.IOException;
 
 @Controller
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
     private final ModelMapper modelMapper;
     private final CacheEvicter cacheEvicter;
-
-    public ProductController(ProductService productService, ModelMapper modelMapper, CacheEvicter cacheEvicter) {
-        this.productService = productService;
-        this.modelMapper = modelMapper;
-        this.cacheEvicter = cacheEvicter;
-    }
 
     @ModelAttribute
     public ProductAddBindingModel productAddBindingModel() {

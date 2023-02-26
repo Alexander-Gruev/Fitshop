@@ -1,5 +1,6 @@
 package com.fitshop.service.impl;
 
+import com.fitshop.GlobalTestConstants;
 import com.fitshop.enums.UserRoleEnum;
 import com.fitshop.model.entity.UserEntity;
 import com.fitshop.model.entity.UserRoleEntity;
@@ -19,8 +20,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.fitshop.GlobalTestConstants.*;
-
 @ExtendWith(MockitoExtension.class)
 class FitshopUserServiceImplTest {
 
@@ -33,21 +32,22 @@ class FitshopUserServiceImplTest {
     @BeforeEach
     void setUp() {
         serviceToTest = new FitshopUserServiceImpl(mockUserRepository);
-        UserRoleEntity adminRole = new UserRoleEntity().setRoleEnum(UserRoleEnum.ADMIN);
-        UserRoleEntity userRole = new UserRoleEntity().setRoleEnum(UserRoleEnum.USER);
-        user = new UserEntity()
-                .setUsername(USERNAME)
-                .setPassword(PASSWORD)
-                .setExperienceLevel(USER_EXPERIENCE)
-                .setEmail(EMAIL)
-                .setRoles(Set.of(adminRole, userRole));
+        UserRoleEntity adminRole = new UserRoleEntity(UserRoleEnum.ADMIN);
+        UserRoleEntity userRole = new UserRoleEntity(UserRoleEnum.USER);
+        user = UserEntity.builder()
+                .username(GlobalTestConstants.USERNAME)
+                .password(GlobalTestConstants.PASSWORD)
+                .experienceLevel(GlobalTestConstants.USER_EXPERIENCE)
+                .email(GlobalTestConstants.EMAIL)
+                .roles(Set.of(adminRole, userRole))
+                .build();
     }
 
     @Test
     void testLoadUserByUsernameShouldThrow() {
         Assertions.assertThrows(
                 UsernameNotFoundException.class,
-                () -> serviceToTest.loadUserByUsername(NON_EXISTENT_USERNAME)
+                () -> serviceToTest.loadUserByUsername(GlobalTestConstants.NON_EXISTENT_USERNAME)
         );
     }
 
@@ -55,7 +55,7 @@ class FitshopUserServiceImplTest {
     void testLoadUserByUsernameShouldReturnCorrectUserDetails() {
         Mockito.when(mockUserRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
 
-        UserDetails actual = serviceToTest.loadUserByUsername(USERNAME);
+        UserDetails actual = serviceToTest.loadUserByUsername(GlobalTestConstants.USERNAME);
 
         String actualRoles = actual
                 .getAuthorities()
@@ -64,7 +64,7 @@ class FitshopUserServiceImplTest {
                 .collect(Collectors.joining(", "));
 
         Assertions.assertEquals(user.getUsername(), actual.getUsername());
-        Assertions.assertEquals(EXPECTED_ROLES_STRING, actualRoles);
+        Assertions.assertEquals(GlobalTestConstants.EXPECTED_ROLES_STRING, actualRoles);
     }
 
 }

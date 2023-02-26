@@ -1,18 +1,16 @@
 package com.fitshop.web;
 
 import com.fitshop.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
+@RequiredArgsConstructor
 public class HomeController {
 
     private final ProductService productService;
-
-    public HomeController(ProductService productService) {
-        this.productService = productService;
-    }
 
     @GetMapping("/")
     public String index(Model model) {

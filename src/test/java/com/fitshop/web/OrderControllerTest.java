@@ -1,5 +1,6 @@
 package com.fitshop.web;
 
+import com.fitshop.GlobalTestConstants;
 import com.fitshop.enums.UserRoleEnum;
 import com.fitshop.model.entity.ProductEntity;
 import com.fitshop.model.entity.UserEntity;
@@ -21,7 +22,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import javax.annotation.PostConstruct;
 import java.util.Set;
 
-import static com.fitshop.GlobalTestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -49,17 +49,18 @@ class OrderControllerTest {
 
     @PostConstruct
     void setUp() {
-        UserRoleEntity adminRole = new UserRoleEntity().setRoleEnum(UserRoleEnum.ADMIN);
-        UserRoleEntity userRole = new UserRoleEntity().setRoleEnum(UserRoleEnum.USER);
+        UserRoleEntity adminRole = new UserRoleEntity(UserRoleEnum.ADMIN);
+        UserRoleEntity userRole = new UserRoleEntity(UserRoleEnum.USER);
         userRoleRepository.save(userRole);
         userRoleRepository.save(adminRole);
 
-        testUser = new UserEntity()
-                .setUsername(USERNAME)
-                .setEmail(EMAIL)
-                .setExperienceLevel(USER_EXPERIENCE)
-                .setPassword(PASSWORD)
-                .setRoles(Set.of(adminRole, userRole));
+        testUser = UserEntity.builder()
+                .username(GlobalTestConstants.USERNAME)
+                .email(GlobalTestConstants.EMAIL)
+                .experienceLevel(GlobalTestConstants.USER_EXPERIENCE)
+                .password(GlobalTestConstants.PASSWORD)
+                .roles(Set.of(adminRole, userRole))
+                .build();
 
         testUser = userRepository.save(testUser);
     }
@@ -72,26 +73,26 @@ class OrderControllerTest {
     }
 
     @Test
-    @WithUserDetails(value = USERNAME)
+    @WithUserDetails(value = GlobalTestConstants.USERNAME)
     void testGetNewOrderShouldReturnCorrectView() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/orders/new/" + PRODUCT_NAME))
+        mockMvc.perform(MockMvcRequestBuilders.get("/orders/new/" + GlobalTestConstants.PRODUCT_NAME))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("productName"))
-                .andExpect(view().name(NEW_ORDER_VIEW_NAME));
+                .andExpect(view().name(GlobalTestConstants.NEW_ORDER_VIEW_NAME));
     }
 
     @Test
-    @WithUserDetails(value = USERNAME)
+    @WithUserDetails(value = GlobalTestConstants.USERNAME)
     void testPostNewOrderShouldCreateNewProductWithValidFields() throws Exception {
         initProduct();
-        mockMvc.perform(MockMvcRequestBuilders.post("/orders/new/" + PRODUCT_NAME).
-                        param("country", ORDER_COUNTRY).
-                        param("clientFullName", ORDER_CLIENT_FULL_NAME).
-                        param("postcode", String.valueOf(ORDER_POSTCODE)).
-                        param("address", ORDER_ADDRESS).
-                        param("email", ORDER_EMAIL).
-                        param("phoneNumber", String.valueOf(ORDER_PHONE_NUMBER)).
-                        param("paymentMethod", ORDER_PAYMENT_METHOD).
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders/new/" + GlobalTestConstants.PRODUCT_NAME).
+                        param("country", GlobalTestConstants.ORDER_COUNTRY).
+                        param("clientFullName", GlobalTestConstants.ORDER_CLIENT_FULL_NAME).
+                        param("postcode", String.valueOf(GlobalTestConstants.ORDER_POSTCODE)).
+                        param("address", GlobalTestConstants.ORDER_ADDRESS).
+                        param("email", GlobalTestConstants.ORDER_EMAIL).
+                        param("phoneNumber", String.valueOf(GlobalTestConstants.ORDER_PHONE_NUMBER)).
+                        param("paymentMethod", GlobalTestConstants.ORDER_PAYMENT_METHOD).
                         with(csrf()).
                         contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection());
@@ -100,10 +101,10 @@ class OrderControllerTest {
     }
 
     @Test
-    @WithUserDetails(value = USERNAME)
+    @WithUserDetails(value = GlobalTestConstants.USERNAME)
     void testPostNewOrderShouldNotCreateNewProductWithInvalidFields() throws Exception {
         initProduct();
-        mockMvc.perform(MockMvcRequestBuilders.post("/orders/new/" + PRODUCT_NAME).
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders/new/" + GlobalTestConstants.PRODUCT_NAME).
                         param("country", "1").
                         param("clientFullName", "1").
                         param("postcode", "1").
@@ -119,13 +120,14 @@ class OrderControllerTest {
     }
 
     void initProduct() {
-        ProductEntity product = new ProductEntity()
-                .setBrandName(PRODUCT_BRAND_NAME)
-                .setName(PRODUCT_NAME)
-                .setDescription(PRODUCT_DESCRIPTION)
-                .setImageUrl(PRODUCT_IMG_URL)
-                .setPrice(PRODUCT_PRICE)
-                .setCategory(PRODUCT_CATEGORY);
+        ProductEntity product = ProductEntity.builder()
+                .brandName(GlobalTestConstants.PRODUCT_BRAND_NAME)
+                .name(GlobalTestConstants.PRODUCT_NAME)
+                .description(GlobalTestConstants.PRODUCT_DESCRIPTION)
+                .imageUrl(GlobalTestConstants.PRODUCT_IMG_URL)
+                .price(GlobalTestConstants.PRODUCT_PRICE)
+                .category(GlobalTestConstants.PRODUCT_CATEGORY)
+                .build();
 
         product = productRepository.save(product);
     }

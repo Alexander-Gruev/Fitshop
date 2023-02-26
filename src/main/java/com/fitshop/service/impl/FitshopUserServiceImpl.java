@@ -3,6 +3,7 @@ package com.fitshop.service.impl;
 import com.fitshop.model.custom.FitshopUser;
 import com.fitshop.model.entity.UserEntity;
 import com.fitshop.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,13 +15,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class FitshopUserServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
-
-    public FitshopUserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Transactional
     @Override
@@ -31,7 +29,7 @@ public class FitshopUserServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User with name " + username + " not found"));
     }
 
-    private UserDetails mapToUserDetails(UserEntity userEntity) {
+    private FitshopUser mapToUserDetails(UserEntity userEntity) {
         Set<SimpleGrantedAuthority> authorities = userEntity
                         .getRoles()
                         .stream()

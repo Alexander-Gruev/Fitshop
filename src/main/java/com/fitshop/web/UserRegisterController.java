@@ -4,6 +4,7 @@ import com.fitshop.enums.UserExperienceEnum;
 import com.fitshop.model.binding.UserRegisterBindingModel;
 import com.fitshop.model.service.UserRegisterServiceModel;
 import com.fitshop.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -19,15 +20,11 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserRegisterController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
-
-    public UserRegisterController(UserService userService, ModelMapper modelMapper) {
-        this.userService = userService;
-        this.modelMapper = modelMapper;
-    }
 
     @ModelAttribute
     public UserRegisterBindingModel userRegisterBindingModel() {

@@ -1,5 +1,6 @@
 package com.fitshop.web;
 
+import com.fitshop.GlobalTestConstants;
 import com.fitshop.enums.UserRoleEnum;
 import com.fitshop.model.entity.UserEntity;
 import com.fitshop.model.entity.UserRoleEntity;
@@ -17,7 +18,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import javax.annotation.PostConstruct;
 import java.util.Set;
 
-import static com.fitshop.GlobalTestConstants.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -35,17 +35,18 @@ class HomeControllerTest {
 
     @PostConstruct
     void setUp() {
-        UserRoleEntity adminRole = new UserRoleEntity().setRoleEnum(UserRoleEnum.ADMIN);
-        UserRoleEntity userRole = new UserRoleEntity().setRoleEnum(UserRoleEnum.USER);
+        UserRoleEntity adminRole = new UserRoleEntity(UserRoleEnum.ADMIN);
+        UserRoleEntity userRole = new UserRoleEntity(UserRoleEnum.USER);
         userRoleRepository.save(userRole);
         userRoleRepository.save(adminRole);
 
-        UserEntity testUser = new UserEntity()
-                .setUsername(USERNAME)
-                .setEmail(EMAIL)
-                .setExperienceLevel(USER_EXPERIENCE)
-                .setPassword(PASSWORD)
-                .setRoles(Set.of(adminRole, userRole));
+        UserEntity testUser = UserEntity.builder()
+                .username(GlobalTestConstants.USERNAME)
+                .email(GlobalTestConstants.EMAIL)
+                .experienceLevel(GlobalTestConstants.USER_EXPERIENCE)
+                .password(GlobalTestConstants.PASSWORD)
+                .roles(Set.of(adminRole, userRole))
+                .build();
 
         testUser = userRepository.save(testUser);
     }
@@ -57,43 +58,43 @@ class HomeControllerTest {
     }
 
     @Test
-    @WithUserDetails(value = USERNAME)
+    @WithUserDetails(value = GlobalTestConstants.USERNAME)
     void testGetIndexShouldReturnCorrectView() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("cheapestProducts"))
-                .andExpect(view().name(INDEX_VIEW_NAME));
+                .andExpect(view().name(GlobalTestConstants.INDEX_VIEW_NAME));
     }
 
     @Test
-    @WithUserDetails(value = USERNAME)
+    @WithUserDetails(value = GlobalTestConstants.USERNAME)
     void testGetAboutShouldReturnCorrectView() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/about"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(ABOUT_VIEW_NAME));
+                .andExpect(view().name(GlobalTestConstants.ABOUT_VIEW_NAME));
     }
 
     @Test
-    @WithUserDetails(value = USERNAME)
+    @WithUserDetails(value = GlobalTestConstants.USERNAME)
     void testGetBeginnersShouldReturnCorrectView() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/beginners"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(BEGINNER_VIEW_NAME));
+                .andExpect(view().name(GlobalTestConstants.BEGINNER_VIEW_NAME));
     }
 
     @Test
-    @WithUserDetails(value = USERNAME)
+    @WithUserDetails(value = GlobalTestConstants.USERNAME)
     void testGetIntermediatesShouldReturnCorrectView() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/intermediates"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(INTERMEDIATE_VIEW_NAME));
+                .andExpect(view().name(GlobalTestConstants.INTERMEDIATE_VIEW_NAME));
     }
 
     @Test
-    @WithUserDetails(value = USERNAME)
+    @WithUserDetails(value = GlobalTestConstants.USERNAME)
     void testGetAdvancedShouldReturnCorrectView() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/advanced"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(ADVANCED_VIEW_NAME));
+                .andExpect(view().name(GlobalTestConstants.ADVANCED_VIEW_NAME));
     }
 }

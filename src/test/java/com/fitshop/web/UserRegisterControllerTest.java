@@ -1,5 +1,6 @@
 package com.fitshop.web;
 
+import com.fitshop.GlobalTestConstants;
 import com.fitshop.enums.UserRoleEnum;
 import com.fitshop.model.entity.UserEntity;
 import com.fitshop.model.entity.UserRoleEntity;
@@ -16,7 +17,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Optional;
 
-import static com.fitshop.GlobalTestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -55,38 +55,38 @@ class UserRegisterControllerTest {
     @Test
     void testPostRegisterShouldRegisterUserWithCorrectFields() throws Exception {
         if (userRoleRepository.count() == 0) {
-            UserRoleEntity userRole = new UserRoleEntity().setRoleEnum(UserRoleEnum.USER);
+            UserRoleEntity userRole = new UserRoleEntity(UserRoleEnum.USER);
             userRoleRepository.save(userRole);
         }
 
         mockMvc.perform(post("/users/register").
-                        param("username", USERNAME).
-                        param("email", EMAIL).
-                        param("experienceLevel", USER_LEVEL_STRING).
-                        param("password", PASSWORD).
-                        param("confirmPassword", PASSWORD).
+                        param("username", GlobalTestConstants.USERNAME).
+                        param("email", GlobalTestConstants.EMAIL).
+                        param("experienceLevel", GlobalTestConstants.USER_LEVEL_STRING).
+                        param("password", GlobalTestConstants.PASSWORD).
+                        param("confirmPassword", GlobalTestConstants.PASSWORD).
                         with(csrf()).
                         contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection());
 
-        Optional<UserEntity> newUserOpt = userRepository.findByUsername(USERNAME);
+        Optional<UserEntity> newUserOpt = userRepository.findByUsername(GlobalTestConstants.USERNAME);
 
         assertTrue(newUserOpt.isPresent());
 
         UserEntity newUser = newUserOpt.get();
-        assertEquals(newUser.getExperienceLevel().name(), USER_LEVEL_STRING);
-        assertEquals(newUser.getUsername(), USERNAME);
-        assertEquals(newUser.getEmail(), EMAIL);
+        assertEquals(newUser.getExperienceLevel().name(), GlobalTestConstants.USER_LEVEL_STRING);
+        assertEquals(newUser.getUsername(), GlobalTestConstants.USERNAME);
+        assertEquals(newUser.getEmail(), GlobalTestConstants.EMAIL);
     }
 
     @Test
     void testPostRegisterShouldFailInCaseOfInvalidFields() throws Exception {
         mockMvc.perform(post("/users/register").
                         param("username", "").
-                        param("email", EMAIL).
-                        param("experienceLevel", USER_LEVEL_STRING).
-                        param("password", PASSWORD).
-                        param("confirmPassword", PASSWORD).
+                        param("email", GlobalTestConstants.EMAIL).
+                        param("experienceLevel", GlobalTestConstants.USER_LEVEL_STRING).
+                        param("password", GlobalTestConstants.PASSWORD).
+                        param("confirmPassword", GlobalTestConstants.PASSWORD).
                         with(csrf()).
                         contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection());

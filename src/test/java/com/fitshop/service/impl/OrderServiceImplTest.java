@@ -1,5 +1,6 @@
 package com.fitshop.service.impl;
 
+import com.fitshop.GlobalTestConstants;
 import com.fitshop.model.entity.OrderEntity;
 import com.fitshop.model.entity.ProductEntity;
 import com.fitshop.model.entity.UserEntity;
@@ -22,7 +23,6 @@ import org.modelmapper.ModelMapper;
 import java.time.Instant;
 import java.util.List;
 
-import static com.fitshop.GlobalTestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,18 +51,18 @@ class OrderServiceImplTest {
 
     @Test
     void testAddOrderReturnsCorrectOrderEntity() {
-        UserEntity client = new UserEntity().setUsername(USERNAME);
-        ProductEntity product = new ProductEntity().setName(PRODUCT_NAME);
+        UserEntity client = UserEntity.builder().username(GlobalTestConstants.USERNAME).build();
+        ProductEntity product = ProductEntity.builder().name(GlobalTestConstants.PRODUCT_NAME).build();
 
-        OrderServiceModel orderServiceModel = new OrderServiceModel();
-        orderServiceModel
-                .setProductName(product.getName())
-                .setClientUsername(client.getUsername());
+        OrderServiceModel orderServiceModel = OrderServiceModel.builder()
+                .productName(product.getName())
+                .clientUsername(client.getUsername())
+                .build();
 
         Mockito.when(userService.getByUsername(orderServiceModel.getClientUsername())).thenReturn(client);
         Mockito.when(productService.getByName(orderServiceModel.getProductName())).thenReturn(product);
 
-        OrderEntity expectedOrder = new OrderEntity().setProduct(product).setClient(client);
+        OrderEntity expectedOrder = OrderEntity.builder().product(product).client(client).build();
         OrderEntity actualOrder = serviceToTest.addOrder(orderServiceModel);
 
         assertTrue(new ReflectionEquals(expectedOrder.getProduct()).matches(actualOrder.getProduct()));
@@ -71,38 +71,42 @@ class OrderServiceImplTest {
 
     @Test
     void testGetAllOrdersShouldReturnCorrectListOfOrderViewModels() {
-        OrderEntity order = new OrderEntity()
-                .setProductName(PRODUCT_NAME)
-                .setClientFullName(CLIENT_FULL_NAME)
-                .setCreated(Instant.parse(CREATED_STRING));
+        OrderEntity order = OrderEntity.builder()
+                .productName(GlobalTestConstants.PRODUCT_NAME)
+                .clientFullName(GlobalTestConstants.CLIENT_FULL_NAME)
+                .created(Instant.parse(GlobalTestConstants.CREATED_STRING))
+                .build();
 
         Mockito.when(orderRepository.findAll()).thenReturn(List.of(order));
 
-        OrderViewModel expected = new OrderViewModel()
-                .setProductName(PRODUCT_NAME)
-                .setClientFullName(CLIENT_FULL_NAME)
-                .setCreated(Instant.parse(CREATED_STRING));
+        OrderViewModel expected = OrderViewModel.builder()
+                .productName(GlobalTestConstants.PRODUCT_NAME)
+                .clientFullName(GlobalTestConstants.CLIENT_FULL_NAME)
+                .created(Instant.parse(GlobalTestConstants.CREATED_STRING))
+                .build();
 
         assertTrue(new ReflectionEquals(expected).matches(serviceToTest.getAllOrders().get(0)));
     }
 
     @Test
     void testGetUserOrdersByUsernameShouldReturnCorrectListOfOrderProfileViewModels() {
-        OrderEntity order = new OrderEntity()
-                .setAddress(ORDER_ADDRESS)
-                .setProductName(PRODUCT_NAME)
-                .setProduct(new ProductEntity().setBrandName(PRODUCT_BRAND_NAME))
-                .setCreated(Instant.parse(CREATED_STRING));
+        OrderEntity order = OrderEntity.builder()
+                .address(GlobalTestConstants.ORDER_ADDRESS)
+                .productName(GlobalTestConstants.PRODUCT_NAME)
+                .product(ProductEntity.builder().brandName(GlobalTestConstants.PRODUCT_BRAND_NAME).build())
+                .created(Instant.parse(GlobalTestConstants.CREATED_STRING))
+                .build();
 
-        Mockito.when(orderRepository.findAllByClient_Username(USERNAME)).thenReturn(List.of(order));
+        Mockito.when(orderRepository.findAllByClient_Username(GlobalTestConstants.USERNAME)).thenReturn(List.of(order));
 
-        OrderProfileViewModel expected = new OrderProfileViewModel()
-                .setAddress(ORDER_ADDRESS)
-                .setProductName(PRODUCT_NAME)
-                .setProductBrandName(PRODUCT_BRAND_NAME)
-                .setCreated(Instant.parse(CREATED_STRING));
+        OrderProfileViewModel expected = OrderProfileViewModel.builder()
+                .address(GlobalTestConstants.ORDER_ADDRESS)
+                .productName(GlobalTestConstants.PRODUCT_NAME)
+                .productBrandName(GlobalTestConstants.PRODUCT_BRAND_NAME)
+                .created(Instant.parse(GlobalTestConstants.CREATED_STRING))
+                .build();
 
-        assertTrue(new ReflectionEquals(expected).matches(serviceToTest.getUserOrdersByUsername(USERNAME).get(0)));
+        assertTrue(new ReflectionEquals(expected).matches(serviceToTest.getUserOrdersByUsername(GlobalTestConstants.USERNAME).get(0)));
     }
 
 }

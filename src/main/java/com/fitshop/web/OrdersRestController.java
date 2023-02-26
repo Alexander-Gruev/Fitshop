@@ -3,6 +3,7 @@ package com.fitshop.web;
 import com.fitshop.model.view.OrderProfileViewModel;
 import com.fitshop.model.view.OrderViewModel;
 import com.fitshop.service.OrderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,13 +16,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
+@RequiredArgsConstructor
 public class OrdersRestController {
 
     private final OrderService orderService;
-
-    public OrdersRestController(OrderService orderService) {
-        this.orderService = orderService;
-    }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/all/api")

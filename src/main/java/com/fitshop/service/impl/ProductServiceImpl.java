@@ -10,6 +10,7 @@ import com.fitshop.repository.ProductRepository;
 import com.fitshop.service.CloudinaryService;
 import com.fitshop.service.ProductService;
 import com.fitshop.web.exception.ObjectNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -21,28 +22,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
     private final CloudinaryService cloudinaryService;
 
-    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper, CloudinaryService cloudinaryService) {
-        this.productRepository = productRepository;
-        this.modelMapper = modelMapper;
-        this.cloudinaryService = cloudinaryService;
-    }
-
     @Override
     public void initProducts() {
         if (this.productRepository.count() == 0) {
-            ProductEntity bench = new ProductEntity();
-            bench
-                    .setBrandName("NordicTrack")
-                    .setCategory(ProductCategoryEnum.WEIGHTS)
-                    .setName("Adjustable bench")
-                    .setPrice(BigDecimal.valueOf(500))
-                    .setDescription("The NordicTrack Adjustable Weight Bench" +
+            ProductEntity bench = ProductEntity.builder()
+                    .brandName("NordicTrack")
+                    .category(ProductCategoryEnum.WEIGHTS)
+                    .name("Adjustable bench")
+                    .price(BigDecimal.valueOf(500))
+                    .description("The NordicTrack Adjustable Weight Bench" +
                             " allows you to target a variety of muscles in your" +
                             " upper and lower body for a comprehensive and challenging" +
                             " workout in the privacy of your home. Easily adjust your weight" +
@@ -56,15 +51,16 @@ public class ProductServiceImpl implements ProductService {
                             " professional touch to any home gym. Enjoy the added benefit of a professionally-designed" +
                             " exercise chart, developed by a certified personal trainer, to guide you through a variety of" +
                             " effective exercises and show proper form.")
-                    .setImageUrl("https://res.cloudinary.com/algruev/image/upload/v1636545225/Fitshop/bench_nmkffu.jpg");
+                    .imageUrl("https://res.cloudinary.com/algruev/image/upload/v1636545225/Fitshop/bench_nmkffu.jpg")
+                    .build();
 
-            ProductEntity bike = new ProductEntity();
-            bike
-                    .setBrandName("Digme")
-                    .setCategory(ProductCategoryEnum.CARDIO)
-                    .setName("Cardio bike")
-                    .setPrice(BigDecimal.valueOf(4000))
-                    .setDescription("The bike involved here is the Keiser m3i Lite," +
+
+            ProductEntity bike = ProductEntity.builder()
+                    .brandName("Digme")
+                    .category(ProductCategoryEnum.CARDIO)
+                    .name("Cardio bike")
+                    .price(BigDecimal.valueOf(4000))
+                    .description("The bike involved here is the Keiser m3i Lite," +
                             "which is a terrific bit of kit with a heavy flywheel that provides" +
                             " a smooth and near-silent ride, and the resistance can be easily jacked" +
                             " up with the lever on the handlebars. The console is a little basic but the" +
@@ -76,31 +72,32 @@ public class ProductServiceImpl implements ProductService {
                             " especially given the instructors can chat with the class. There are daily live" +
                             " classes in the morning, at lunchtime and in the evening, and there’s a sizeable" +
                             " library of on-demand sessions if those times don’t suit you.")
-                    .setImageUrl("https://res.cloudinary.com/algruev/image/upload/v1636545225/Fitshop/bike_tscsyf.jpg");
+                    .imageUrl("https://res.cloudinary.com/algruev/image/upload/v1636545225/Fitshop/bike_tscsyf.jpg")
+                    .build();
 
-            ProductEntity bands = new ProductEntity();
-            bands
-                    .setBrandName("Bodylastics")
-                    .setCategory(ProductCategoryEnum.BAND)
-                    .setName("Resistance Bands")
-                    .setPrice(BigDecimal.valueOf(200))
-                    .setDescription("MAX TENSION Set (44kg.) with 5 anti-snap exercise tubes," +
+            ProductEntity bands = ProductEntity.builder()
+                    .brandName("Bodylastics")
+                    .category(ProductCategoryEnum.BAND)
+                    .name("Resistance Bands")
+                    .price(BigDecimal.valueOf(200))
+                    .description("MAX TENSION Set (44kg.) with 5 anti-snap exercise tubes," +
                             " Heavy Duty components, carrying case, DVD and FREE 3 month membership to LIVEEXERCISE website ")
-                    .setImageUrl("https://res.cloudinary.com/algruev/image/upload/v1636545226/Fitshop/bands_ne0t54.jpg");
+                    .imageUrl("https://res.cloudinary.com/algruev/image/upload/v1636545226/Fitshop/bands_ne0t54.jpg")
+                    .build();
 
-            ProductEntity dumbbells = new ProductEntity();
-            dumbbells
-                    .setBrandName("Rogue")
-                    .setCategory(ProductCategoryEnum.WEIGHTS)
-                    .setName("Dumbbells(2 x 22.5 kg)")
-                    .setPrice(BigDecimal.valueOf(400))
-                    .setDescription("Hex Dumbbell Hand Weights\n" +
+            ProductEntity dumbbells = ProductEntity.builder()
+                    .brandName("Rogue")
+                    .category(ProductCategoryEnum.WEIGHTS)
+                    .name("Dumbbells(2 x 22.5 kg)")
+                    .price(BigDecimal.valueOf(400))
+                    .description("Hex Dumbbell Hand Weights\n" +
                             " Solid cast dumbbells with black rubber coating.\n" +
                             " Durable coating will not crack or fade, and prevents damage to floors and equipment.\n" +
                             " Supplied with a coating of preservative to preserve the rubber during storage and transport." +
                             " Please remove this with a cloth prior to use and do not place on carpets or floors until clean.\n" +
                             " Excellent contoured steel grips for maximum comfort during extended workouts ")
-                    .setImageUrl("https://res.cloudinary.com/algruev/image/upload/v1636545225/Fitshop/dumbbells_mjsqs0.jpg");
+                    .imageUrl("https://res.cloudinary.com/algruev/image/upload/v1636545225/Fitshop/dumbbells_mjsqs0.jpg")
+                    .build();
 
             this.productRepository.saveAll(List.of(bench, bike, bands, dumbbells));
         }
@@ -183,10 +180,10 @@ public class ProductServiceImpl implements ProductService {
                 .findById(productUpdateServiceModel.getId())
                 .orElseThrow(() -> new ObjectNotFoundException("Product with id " + productUpdateServiceModel.getId() + " does not exist!"));
 
-        productEntity
-                .setDescription(productUpdateServiceModel.getDescription())
-                .setPrice(productUpdateServiceModel.getPrice())
-                .setName(productUpdateServiceModel.getName());
+        //todo replace with Mapper from MapStruct
+        productEntity.setDescription(productUpdateServiceModel.getDescription());
+        productEntity.setPrice(productUpdateServiceModel.getPrice());
+        productEntity.setName(productUpdateServiceModel.getName());
 
         this.productRepository.save(productEntity);
     }

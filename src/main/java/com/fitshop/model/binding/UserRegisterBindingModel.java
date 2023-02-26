@@ -3,11 +3,13 @@ package com.fitshop.model.binding;
 import com.fitshop.enums.UserExperienceEnum;
 import com.fitshop.model.validator.UniqueEmail;
 import com.fitshop.model.validator.UniqueUsername;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@Data
 public class UserRegisterBindingModel {
 
     @UniqueUsername(message = "Username is already taken!")
@@ -31,48 +33,4 @@ public class UserRegisterBindingModel {
     @Size(min = 3, max = 20)
     private String confirmPassword;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public UserRegisterBindingModel setUsername(String username) {
-        this.username = username;
-        return this;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public UserRegisterBindingModel setEmail(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public UserExperienceEnum getExperienceLevel() {
-        return experienceLevel;
-    }
-
-    public UserRegisterBindingModel setExperienceLevel(UserExperienceEnum experienceLevel) {
-        this.experienceLevel = experienceLevel;
-        return this;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public UserRegisterBindingModel setPassword(String password) {
-        this.password = password;
-        return this;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public UserRegisterBindingModel setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-        return this;
-    }
 }

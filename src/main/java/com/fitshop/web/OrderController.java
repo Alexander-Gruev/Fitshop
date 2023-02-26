@@ -3,6 +3,7 @@ package com.fitshop.web;
 import com.fitshop.model.binding.OrderBindingModel;
 import com.fitshop.model.service.OrderServiceModel;
 import com.fitshop.service.OrderService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -16,15 +17,11 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/orders")
+@RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
     private final ModelMapper modelMapper;
-
-    public OrderController(OrderService orderService, ModelMapper modelMapper) {
-        this.orderService = orderService;
-        this.modelMapper = modelMapper;
-    }
 
     @ModelAttribute
     public OrderBindingModel orderBindingModel() {
@@ -52,9 +49,8 @@ public class OrderController {
         }
 
         OrderServiceModel orderServiceModel = this.modelMapper.map(orderBindingModel, OrderServiceModel.class);
-        orderServiceModel
-                .setProductName(productName)
-                .setClientUsername(user.getUsername());
+        orderServiceModel.setProductName(productName);
+        orderServiceModel.setClientUsername(user.getUsername());
 
         this.orderService.addOrder(orderServiceModel);
 

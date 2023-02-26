@@ -12,6 +12,7 @@ import com.fitshop.repository.UserRoleRepository;
 import com.fitshop.service.CloudinaryService;
 import com.fitshop.service.UserService;
 import com.fitshop.web.exception.ObjectNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -33,15 +35,6 @@ public class UserServiceImpl implements UserService {
     private final FitshopUserServiceImpl fitshopUserService;
     private final CloudinaryService cloudinaryService;
 
-    public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper, FitshopUserServiceImpl fitshopUserService, CloudinaryService cloudinaryService) {
-        this.userRepository = userRepository;
-        this.userRoleRepository = userRoleRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.modelMapper = modelMapper;
-        this.fitshopUserService = fitshopUserService;
-        this.cloudinaryService = cloudinaryService;
-    }
-
     @Override
     public void initUsersAndRoles() {
         initRoles();
@@ -50,18 +43,18 @@ public class UserServiceImpl implements UserService {
 
     private void initUsers() {
         if (this.userRepository.count() == 0) {
-            UserEntity userEntity = new UserEntity();
             UserRoleEntity adminRole = this.userRoleRepository.findByRoleEnum(UserRoleEnum.ADMIN);
             UserRoleEntity userRole = this.userRoleRepository.findByRoleEnum(UserRoleEnum.USER);
 
-            userEntity
-                    .setUsername("AlGruev")
-                    .setPassword(this.passwordEncoder.encode("secret"))
-                    .setEmail("realEmail@mail.com")
-                    .setExperienceLevel(UserExperienceEnum.ADVANCED)
-                    .setRoles(Set.of(adminRole, userRole));
+            UserEntity admin = UserEntity.builder()
+                    .username("AlGruev")
+                    .password(this.passwordEncoder.encode("secret"))
+                    .email("realEmail@mail.com")
+                    .experienceLevel(UserExperienceEnum.ADVANCED)
+                    .roles(Set.of(adminRole, userRole))
+                    .build();
 
-            this.userRepository.save(userEntity);
+            this.userRepository.save(admin);
         }
     }
 
@@ -80,12 +73,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerAndLoginUser(UserRegisterServiceModel userRegisterServiceModel) {
         UserRoleEntity userRole = this.userRoleRepository.findByRoleEnum(UserRoleEnum.USER);
-        UserEntity userEntity = new UserEntity();
-        userEntity.setExperienceLevel(userRegisterServiceModel.getExperience())
-                .setUsername(userRegisterServiceModel.getUsername())
-                .setPassword(this.passwordEncoder.encode(userRegisterServiceModel.getPassword()))
-                .setEmail(userRegisterServiceModel.getEmail())
-                .setRoles(Set.of(userRole));
+        UserEntity userEntity = UserEntity.builder()
+                .experienceLevel(userRegisterServiceModel.getExperienceLevel())
+                .username(userRegisterServiceModel.getUsername())
+                .password(this.passwordEncoder.encode(userRegisterServiceModel.getPassword()))
+                .email(userRegisterServiceModel.getEmail())
+                .roles(Set.of(userRole))
+                .build();
 
         userEntity = this.userRepository.save(userEntity);
 

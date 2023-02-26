@@ -1,5 +1,6 @@
 package com.fitshop.web;
 
+import com.fitshop.GlobalTestConstants;
 import com.fitshop.enums.UserRoleEnum;
 import com.fitshop.model.entity.OrderEntity;
 import com.fitshop.model.entity.ProductEntity;
@@ -22,7 +23,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.Instant;
 import java.util.Set;
 
-import static com.fitshop.GlobalTestConstants.*;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -51,17 +51,18 @@ class OrdersRestControllerTest {
 
     @BeforeEach()
     void setUp() {
-        UserRoleEntity adminRole = new UserRoleEntity().setRoleEnum(UserRoleEnum.ADMIN);
-        UserRoleEntity userRole = new UserRoleEntity().setRoleEnum(UserRoleEnum.USER);
+        UserRoleEntity adminRole = new UserRoleEntity(UserRoleEnum.ADMIN);
+        UserRoleEntity userRole = new UserRoleEntity(UserRoleEnum.USER);
         userRoleRepository.save(userRole);
         userRoleRepository.save(adminRole);
 
-        testUser = new UserEntity()
-                .setUsername(USERNAME)
-                .setEmail(EMAIL)
-                .setExperienceLevel(USER_EXPERIENCE)
-                .setPassword(PASSWORD)
-                .setRoles(Set.of(adminRole, userRole));
+        testUser = UserEntity.builder()
+                .username(GlobalTestConstants.USERNAME)
+                .email(GlobalTestConstants.EMAIL)
+                .experienceLevel(GlobalTestConstants.USER_EXPERIENCE)
+                .password(GlobalTestConstants.PASSWORD)
+                .roles(Set.of(adminRole, userRole))
+                .build();
 
         testUser = userRepository.save(testUser);
     }
@@ -82,12 +83,12 @@ class OrdersRestControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/orders/all"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$.[0].productName", is(PRODUCT_NAME)))
-                .andExpect(jsonPath("$.[0].clientFullName", is(ORDER_CLIENT_FULL_NAME)));
+                .andExpect(jsonPath("$.[0].productName", is(GlobalTestConstants.PRODUCT_NAME)))
+                .andExpect(jsonPath("$.[0].clientFullName", is(GlobalTestConstants.ORDER_CLIENT_FULL_NAME)));
     }
 
     @Test
-    @WithMockUser(value = USERNAME)
+    @WithMockUser(value = GlobalTestConstants.USERNAME)
     void testGetUserOrdersShouldReturnCorrectOrders() throws Exception {
         OrderEntity order = initOrderWithProduct();
         testUser.setOrders(Set.of(order));
@@ -96,33 +97,35 @@ class OrdersRestControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/orders/user"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$.[0].productName", is(PRODUCT_NAME)))
-                .andExpect(jsonPath("$.[0].productBrandName", is(PRODUCT_BRAND_NAME)))
-                .andExpect(jsonPath("$.[0].address", is(ORDER_ADDRESS)));
+                .andExpect(jsonPath("$.[0].productName", is(GlobalTestConstants.PRODUCT_NAME)))
+                .andExpect(jsonPath("$.[0].productBrandName", is(GlobalTestConstants.PRODUCT_BRAND_NAME)))
+                .andExpect(jsonPath("$.[0].address", is(GlobalTestConstants.ORDER_ADDRESS)));
     }
 
     private OrderEntity initOrderWithProduct() {
-        ProductEntity product = new ProductEntity()
-                .setBrandName(PRODUCT_BRAND_NAME)
-                .setName(PRODUCT_NAME)
-                .setDescription(PRODUCT_DESCRIPTION)
-                .setImageUrl(PRODUCT_IMG_URL)
-                .setPrice(PRODUCT_PRICE)
-                .setCategory(PRODUCT_CATEGORY);
+        ProductEntity product = ProductEntity.builder()
+                .brandName(GlobalTestConstants.PRODUCT_BRAND_NAME)
+                .name(GlobalTestConstants.PRODUCT_NAME)
+                .description(GlobalTestConstants.PRODUCT_DESCRIPTION)
+                .imageUrl(GlobalTestConstants.PRODUCT_IMG_URL)
+                .price(GlobalTestConstants.PRODUCT_PRICE)
+                .category(GlobalTestConstants.PRODUCT_CATEGORY)
+                .build();
 
         product = productRepository.save(product);
 
-        OrderEntity order = new OrderEntity()
-                .setCountry(ORDER_COUNTRY)
-                .setClient(testUser)
-                .setProduct(product)
-                .setPaymentMethod(ORDER_PAYMENT_METHOD)
-                .setPhoneNumber(ORDER_PHONE_NUMBER)
-                .setPostcode(ORDER_POSTCODE)
-                .setAddress(ORDER_ADDRESS)
-                .setProductName(PRODUCT_NAME)
-                .setClientFullName(ORDER_CLIENT_FULL_NAME)
-                .setCreated(Instant.parse(CREATED_STRING));
+        OrderEntity order = OrderEntity.builder()
+                .country(GlobalTestConstants.ORDER_COUNTRY)
+                .client(testUser)
+                .product(product)
+                .paymentMethod(GlobalTestConstants.ORDER_PAYMENT_METHOD)
+                .phoneNumber(GlobalTestConstants.ORDER_PHONE_NUMBER)
+                .postcode(GlobalTestConstants.ORDER_POSTCODE)
+                .address(GlobalTestConstants.ORDER_ADDRESS)
+                .productName(GlobalTestConstants.PRODUCT_NAME)
+                .clientFullName(GlobalTestConstants.ORDER_CLIENT_FULL_NAME)
+                .created(Instant.parse(GlobalTestConstants.CREATED_STRING))
+                .build();
 
         order = orderRepository.save(order);
         return order;

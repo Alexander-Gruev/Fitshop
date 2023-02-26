@@ -1,7 +1,16 @@
 package com.fitshop.model.view;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.Instant;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class OrderProfileViewModel {
 
     private String productName;
@@ -9,39 +18,4 @@ public class OrderProfileViewModel {
     private String address;
     private Instant created;
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public OrderProfileViewModel setProductName(String productName) {
-        this.productName = productName;
-        return this;
-    }
-
-    public String getProductBrandName() {
-        return productBrandName;
-    }
-
-    public OrderProfileViewModel setProductBrandName(String productBrandName) {
-        this.productBrandName = productBrandName;
-        return this;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public OrderProfileViewModel setAddress(String address) {
-        this.address = address;
-        return this;
-    }
-
-    public Instant getCreated() {
-        return created;
-    }
-
-    public OrderProfileViewModel setCreated(Instant created) {
-        this.created = created;
-        return this;
-    }
 }

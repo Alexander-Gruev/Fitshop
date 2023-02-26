@@ -1,27 +1,18 @@
 package com.fitshop.model.service;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserPictureServiceModel {
 
     private MultipartFile picture;
     private String username;
 
-    public MultipartFile getPicture() {
-        return picture;
-    }
-
-    public UserPictureServiceModel setPicture(MultipartFile picture) {
-        this.picture = picture;
-        return this;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public UserPictureServiceModel setUsername(String username) {
-        this.username = username;
-        return this;
-    }
 }

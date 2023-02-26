@@ -4,6 +4,7 @@ import com.fitshop.model.binding.UserPictureBindingModel;
 import com.fitshop.model.service.UserPictureServiceModel;
 import com.fitshop.model.view.UserViewModel;
 import com.fitshop.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +14,10 @@ import java.security.Principal;
 
 @Controller
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserProfileController {
 
     private final UserService userService;
-
-    public UserProfileController(UserService userService) {
-        this.userService = userService;
-    }
 
     @ModelAttribute
     public UserPictureBindingModel userPictureBindingModel() {
@@ -35,10 +33,10 @@ public class UserProfileController {
 
     @PatchMapping("/profile/{id}")
     public String profile(UserPictureBindingModel userPictureBindingModel, Principal principal, @PathVariable Long id) throws IOException {
-        UserPictureServiceModel userPictureServiceModel = new UserPictureServiceModel();
-        userPictureServiceModel
-                .setPicture(userPictureBindingModel.getPicture())
-                .setUsername(principal.getName());
+        UserPictureServiceModel userPictureServiceModel = UserPictureServiceModel.builder()
+                .picture(userPictureBindingModel.getPicture())
+                .username(principal.getName())
+                .build();
 
         this.userService.updateWithPicture(userPictureServiceModel);
         return "redirect:/users/profile";

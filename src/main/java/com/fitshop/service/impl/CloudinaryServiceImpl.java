@@ -2,6 +2,7 @@ package com.fitshop.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.fitshop.service.CloudinaryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,15 +11,12 @@ import java.io.IOException;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class CloudinaryServiceImpl implements CloudinaryService {
 
     private static final String URL = "url";
     private static final String TEMP_FILE = "temp_file";
     private final Cloudinary cloudinary;
-
-    public CloudinaryServiceImpl(Cloudinary cloudinary) {
-        this.cloudinary = cloudinary;
-    }
 
     @Override
     public String uploadPicture(MultipartFile picture) throws IOException {

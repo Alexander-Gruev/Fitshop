@@ -2,6 +2,7 @@ package com.fitshop.web;
 
 import com.fitshop.service.OwnProfileViewsService;
 import com.fitshop.service.RequestsStatsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,15 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/statistics")
+@RequiredArgsConstructor
 public class StatsController {
 
     private final RequestsStatsService requestsStatsService;
     private final OwnProfileViewsService ownProfileViewsService;
-
-    public StatsController(RequestsStatsService requestsStatsService, OwnProfileViewsService ownProfileViewsService) {
-        this.requestsStatsService = requestsStatsService;
-        this.ownProfileViewsService = ownProfileViewsService;
-    }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/requests")
