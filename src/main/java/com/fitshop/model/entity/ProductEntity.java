@@ -1,5 +1,6 @@
 package com.fitshop.model.entity;
 
+import com.fitshop.constants.Constants;
 import com.fitshop.enums.ProductCategoryEnum;
 import lombok.*;
 
@@ -13,7 +14,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "products")
+@Table(name = "products", schema = Constants.SCHEMA_NAME)
 public class ProductEntity extends BaseEntity {
 
     @Column(nullable = false)

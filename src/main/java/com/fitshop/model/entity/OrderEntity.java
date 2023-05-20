@@ -1,4 +1,5 @@
 package com.fitshop.model.entity;
+import com.fitshop.constants.Constants;
 
 import lombok.*;
 
@@ -11,7 +12,7 @@ import java.time.Instant;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "orders")
+@Table(name = "orders", schema = Constants.SCHEMA_NAME)
 public class OrderEntity extends BaseEntity {
 
     @Column(nullable = false)

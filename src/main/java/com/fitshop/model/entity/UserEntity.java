@@ -1,5 +1,6 @@
 package com.fitshop.model.entity;
 
+import com.fitshop.constants.Constants;
 import com.fitshop.enums.UserExperienceEnum;
 import lombok.*;
 
@@ -12,7 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = Constants.SCHEMA_NAME)
 public class UserEntity extends BaseEntity {
 
     @Column(nullable = false, unique = true)
@@ -28,6 +29,12 @@ public class UserEntity extends BaseEntity {
     private UserExperienceEnum experienceLevel;
 
     @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            schema = Constants.SCHEMA_NAME
+    )
     private Set<UserRoleEntity> roles;
 
     @Column

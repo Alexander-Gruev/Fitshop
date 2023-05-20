@@ -1,5 +1,6 @@
 package com.fitshop.model.entity;
 
+import com.fitshop.constants.Constants;
 import com.fitshop.enums.UserRoleEnum;
 import lombok.*;
 
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "roles")
+@Table(name = "roles", schema = Constants.SCHEMA_NAME)
 public class UserRoleEntity extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
