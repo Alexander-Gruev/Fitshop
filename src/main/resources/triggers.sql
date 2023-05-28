@@ -25,7 +25,7 @@ BEGIN
 END;
 
 
--- orders_trigger
+-- -- orders_trigger
 IF EXISTS (
             SELECT * FROM sys.triggers
             WHERE [name] = 'orders_trigger'
@@ -52,7 +52,7 @@ BEGIN
 END;
 
 
--- users_trigger
+-- -- users_trigger
 IF EXISTS (
             SELECT * FROM sys.triggers
             WHERE [name] = 'users_trigger'
@@ -79,7 +79,7 @@ BEGIN
 END;
 
 
--- roles_trigger
+-- -- roles_trigger
 IF EXISTS (
             SELECT * FROM sys.triggers
             WHERE [name] = 'roles_trigger'
@@ -106,7 +106,7 @@ BEGIN
 END;
 
 
--- users_roles_trigger
+-- -- users_roles_trigger
 IF EXISTS (
             SELECT * FROM sys.triggers
             WHERE [name] = 'users_roles_trigger'
