@@ -22,8 +22,8 @@ Web layer. Each layer uses directly only the layer below it.
   order products, view their profile, upload a profile picture, 
   view their orders in their profile and logout.
   * The Admin is permitted to all the user functionality, as well as
-  adding, editing and deleting products, viewing all orders in the application and
-  having access to statistics.
+  adding, editing and deleting products, viewing all orders in the application, 
+  having access to statistics and exporting data into csv.
 
 
 * Implements error handling and data validation both client and 
@@ -34,7 +34,7 @@ server-side. When validating data, the application shows appropriate messages to
 
 
 * Uses the Thymeleaf template engine to dynamically display views.
-It also has one REST Controller that is called upon by the JavaScript fetch API to asynchronously
+It also has a REST Controller that is called upon by the JavaScript fetch API to asynchronously
 load the orders in the user's profile.
 
 
@@ -50,7 +50,10 @@ load the orders in the user's profile.
 * Uses Cloudinary to store pictures.
 
 
-* Uses ModelMapper.
+* Uses MapStruct.
+
+
+* Uses Lombok.
 
 
 
