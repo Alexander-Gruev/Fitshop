@@ -13,13 +13,13 @@ import com.fitshop.service.CloudinaryService;
 import com.fitshop.service.UserService;
 import com.fitshop.web.exception.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.fitshop.model.mapper.UserMapper;
 
 import java.io.IOException;
 import java.util.Set;
@@ -31,9 +31,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ModelMapper modelMapper;
     private final FitshopUserServiceImpl fitshopUserService;
     private final CloudinaryService cloudinaryService;
+    private final UserMapper userMapper;
 
     @Override
     public void initUsersAndRoles() {
@@ -81,6 +81,10 @@ public class UserServiceImpl implements UserService {
                 .roles(Set.of(userRole))
                 .build();
 
+//        UserEntity userEntity = userMapper.mapFromRegisterServiceModelToEntity(userRegisterServiceModel, this.passwordEncoder);
+//        userEntity.setRoles(Set.of(userRole));
+
+
         userEntity = this.userRepository.save(userEntity);
 
         UserDetails principal = this.fitshopUserService.loadUserByUsername(userEntity.getUsername());
@@ -103,7 +107,7 @@ public class UserServiceImpl implements UserService {
     public UserViewModel getViewModelByUsername(String username) {
         return this.userRepository
                 .findByUsername(username)
-                .map(u -> this.modelMapper.map(u, UserViewModel.class))
+                .map(this.userMapper::mapFromEntityToViewModel)
                 .orElseThrow(() -> new ObjectNotFoundException("User with username " + username + " does not exist!"));
     }
 
@@ -120,7 +124,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity getByUsername(String username) {
-        return this.userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with username " + username + " does not exist!"));
+        return this.userRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new ObjectNotFoundException("User with username " + username + " does not exist!"));
     }
 
     @Override

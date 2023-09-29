@@ -2,10 +2,10 @@ package com.fitshop.web;
 
 import com.fitshop.enums.UserExperienceEnum;
 import com.fitshop.model.binding.UserRegisterBindingModel;
+import com.fitshop.model.mapper.UserMapper;
 import com.fitshop.model.service.UserRegisterServiceModel;
 import com.fitshop.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +24,7 @@ import javax.validation.Valid;
 public class UserRegisterController {
 
     private final UserService userService;
-    private final ModelMapper modelMapper;
+    private final UserMapper userMapper;
 
     @ModelAttribute
     public UserRegisterBindingModel userRegisterBindingModel() {
@@ -60,7 +60,7 @@ public class UserRegisterController {
         }
 
         UserRegisterServiceModel serviceModel =
-                this.modelMapper.map(userRegisterBindingModel, UserRegisterServiceModel.class);
+                this.userMapper.mapFromRegisterBindingModelToRegisterServiceModel(userRegisterBindingModel);
 
         this.userService.registerAndLoginUser(serviceModel);
 

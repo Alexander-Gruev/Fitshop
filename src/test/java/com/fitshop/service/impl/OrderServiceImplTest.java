@@ -4,6 +4,7 @@ import com.fitshop.GlobalTestConstants;
 import com.fitshop.model.entity.OrderEntity;
 import com.fitshop.model.entity.ProductEntity;
 import com.fitshop.model.entity.UserEntity;
+import com.fitshop.model.mapper.OrderMapper;
 import com.fitshop.model.service.OrderServiceModel;
 import com.fitshop.model.view.OrderProfileViewModel;
 import com.fitshop.model.view.OrderViewModel;
@@ -18,7 +19,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.Instant;
 import java.util.List;
@@ -37,7 +38,8 @@ class OrderServiceImplTest {
     @Mock
     private ProductService productService;
 
-    private final ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    private OrderMapper orderMapper;
 
     @Mock
     private ProductRepository productRepository;
@@ -46,7 +48,7 @@ class OrderServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        serviceToTest = new OrderServiceImpl(orderRepository, userService, productService, modelMapper, productRepository);
+        serviceToTest = new OrderServiceImpl(orderRepository, userService, productService,productRepository, orderMapper);
     }
 
     @Test

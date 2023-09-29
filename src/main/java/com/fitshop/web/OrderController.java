@@ -1,10 +1,10 @@
 package com.fitshop.web;
 
 import com.fitshop.model.binding.OrderBindingModel;
+import com.fitshop.model.mapper.OrderMapper;
 import com.fitshop.model.service.OrderServiceModel;
 import com.fitshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,7 @@ import javax.validation.Valid;
 public class OrderController {
 
     private final OrderService orderService;
-    private final ModelMapper modelMapper;
+    private final OrderMapper orderMapper;
 
     @ModelAttribute
     public OrderBindingModel orderBindingModel() {
@@ -48,7 +48,7 @@ public class OrderController {
             return "redirect:/orders/new/{name}";
         }
 
-        OrderServiceModel orderServiceModel = this.modelMapper.map(orderBindingModel, OrderServiceModel.class);
+        OrderServiceModel orderServiceModel = this.orderMapper.mapFromBindingModelToServiceModel(orderBindingModel);
         orderServiceModel.setProductName(productName);
         orderServiceModel.setClientUsername(user.getUsername());
 

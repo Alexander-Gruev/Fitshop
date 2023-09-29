@@ -4,13 +4,11 @@ import com.fitshop.enums.ProductCategoryEnum;
 import com.fitshop.model.binding.ProductAddBindingModel;
 import com.fitshop.model.binding.ProductUpdateBindingModel;
 import com.fitshop.model.entity.ProductEntity;
-import com.fitshop.model.service.ProductAddServiceModel;
-import com.fitshop.model.service.ProductUpdateServiceModel;
+import com.fitshop.model.mapper.ProductMapper;
 import com.fitshop.model.view.ProductDetailsViewModel;
 import com.fitshop.scheduler.CacheEvicter;
 import com.fitshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,8 +25,8 @@ import java.io.IOException;
 public class ProductController {
 
     private final ProductService productService;
-    private final ModelMapper modelMapper;
     private final CacheEvicter cacheEvicter;
+    private final ProductMapper productMapper;
 
     @ModelAttribute
     public ProductAddBindingModel productAddBindingModel() {
@@ -63,7 +61,7 @@ public class ProductController {
         }
 
         this.productService
-                .add(this.modelMapper.map(productAddBindingModel, ProductAddServiceModel.class));
+                .add(this.productMapper.mapFromAddBindingModelToAddServiceModel(productAddBindingModel));
 
         return "redirect:/products/all";
     }
@@ -110,7 +108,7 @@ public class ProductController {
     @GetMapping("/update/{id}")
     public String update(Model model, @PathVariable Long id) {
         ProductEntity productEntity = this.productService.getById(id);
-        ProductUpdateBindingModel productUpdateBindingModel = this.modelMapper.map(productEntity, ProductUpdateBindingModel.class);
+        ProductUpdateBindingModel productUpdateBindingModel = this.productMapper.mapFromEntityToUpdateBindingModel(productEntity);
 
         model.addAttribute("productUpdateBindingModel", productUpdateBindingModel);
         return "product-update";
@@ -130,7 +128,7 @@ public class ProductController {
         }
 
         this.productService
-                .update(this.modelMapper.map(productUpdateBindingModel, ProductUpdateServiceModel.class));
+                .update(this.productMapper.mapFromUpdateBindingModelToUpdateServiceModel(productUpdateBindingModel));
         this.cacheEvicter.evictAllCacheValues();
 
         return "redirect:/products/all";

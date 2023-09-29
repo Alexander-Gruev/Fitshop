@@ -3,6 +3,7 @@ package com.fitshop.service.impl;
 import com.fitshop.model.entity.OrderEntity;
 import com.fitshop.model.entity.ProductEntity;
 import com.fitshop.model.entity.UserEntity;
+import com.fitshop.model.mapper.OrderMapper;
 import com.fitshop.model.service.OrderServiceModel;
 import com.fitshop.model.view.OrderProfileViewModel;
 import com.fitshop.model.view.OrderViewModel;
@@ -12,7 +13,6 @@ import com.fitshop.service.OrderService;
 import com.fitshop.service.ProductService;
 import com.fitshop.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,12 +26,12 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final UserService userService;
     private final ProductService productService;
-    private final ModelMapper modelMapper;
     private final ProductRepository productRepository;
+    private final OrderMapper orderMapper;
 
     @Override
     public OrderEntity addOrder(OrderServiceModel orderServiceModel) {
-        OrderEntity orderEntity = this.modelMapper.map(orderServiceModel, OrderEntity.class);
+        OrderEntity orderEntity = this.orderMapper.mapFromServiceModelToEntity(orderServiceModel);
         UserEntity client = this.userService.getByUsername(orderServiceModel.getClientUsername());
         ProductEntity product = this.productService.getByName(orderServiceModel.getProductName());
 
@@ -50,12 +50,7 @@ public class OrderServiceImpl implements OrderService {
         return this.orderRepository
                 .findAll()
                 .stream()
-                .map(o -> OrderViewModel.builder()
-                        .productName(o.getProductName())
-                        .clientFullName(o.getClientFullName())
-                        .created(o.getCreated())
-                        .build()
-                )
+                .map(orderMapper::mapFromEntityToViewModel)
                 .collect(Collectors.toList());
     }
 
@@ -65,12 +60,7 @@ public class OrderServiceImpl implements OrderService {
         return this.orderRepository
                 .findAllByClient_Username(username)
                 .stream()
-                .map(o -> OrderProfileViewModel.builder()
-                        .address(o.getAddress())
-                        .productName(o.getProductName())
-                        .productBrandName(o.getProduct().getBrandName())
-                        .created(o.getCreated())
-                        .build())
+                .map(this.orderMapper::mapFromEntityToProfileViewModel)
                 .collect(Collectors.toList());
     }
 

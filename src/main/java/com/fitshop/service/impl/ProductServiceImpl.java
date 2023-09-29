@@ -2,6 +2,7 @@ package com.fitshop.service.impl;
 
 import com.fitshop.enums.ProductCategoryEnum;
 import com.fitshop.model.entity.ProductEntity;
+import com.fitshop.model.mapper.ProductMapper;
 import com.fitshop.model.service.ProductAddServiceModel;
 import com.fitshop.model.service.ProductUpdateServiceModel;
 import com.fitshop.model.view.ProductDetailsViewModel;
@@ -11,7 +12,6 @@ import com.fitshop.service.CloudinaryService;
 import com.fitshop.service.ProductService;
 import com.fitshop.web.exception.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,8 +26,8 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final ModelMapper modelMapper;
     private final CloudinaryService cloudinaryService;
+    private final ProductMapper productMapper;
 
     @Override
     public void initProducts() {
@@ -110,7 +110,7 @@ public class ProductServiceImpl implements ProductService {
                 .findTheCheapest()
                 .stream()
                 .limit(4)
-                .map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                .map(this.productMapper::mapFromEntityToViewModel)
                 .collect(Collectors.toList());
     }
 
@@ -118,7 +118,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDetailsViewModel getViewModelById(Long id) {
         return this.productRepository
                 .findById(id)
-                .map(p -> this.modelMapper.map(p, ProductDetailsViewModel.class))
+                .map(this.productMapper::mapFromEntityToDetailsViewModel)
                 .orElseThrow(() -> new ObjectNotFoundException("Product with id " + id + " does not exist!"));
     }
 
@@ -131,7 +131,7 @@ public class ProductServiceImpl implements ProductService {
     public void add(ProductAddServiceModel productAddServiceModel) throws IOException {
         MultipartFile picture = productAddServiceModel.getPicture();
         String pictureUrl = this.cloudinaryService.uploadPicture(picture);
-        ProductEntity productEntity = this.modelMapper.map(productAddServiceModel, ProductEntity.class);
+        ProductEntity productEntity = this.productMapper.mapFromAddServiceModelToEntity(productAddServiceModel);
         productEntity.setImageUrl(pictureUrl);
 
         this.productRepository.save(productEntity);
@@ -142,7 +142,7 @@ public class ProductServiceImpl implements ProductService {
         return this.productRepository
                 .findAll()
                 .stream()
-                .map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                .map(this.productMapper::mapFromEntityToViewModel)
                 .collect(Collectors.toList());
     }
 
@@ -150,7 +150,8 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductViewModel> getTheNewestEight() {
         return this.productRepository
                 .findTheNewest()
-                .stream().map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                .stream()
+                .map(this.productMapper::mapFromEntityToViewModel)
                 .limit(8)
                 .collect(Collectors.toList());
     }
@@ -160,7 +161,7 @@ public class ProductServiceImpl implements ProductService {
         return this.productRepository
                 .findByCategory(category)
                 .stream()
-                .map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                .map(this.productMapper::mapFromEntityToViewModel)
                 .collect(Collectors.toList());
     }
 
@@ -180,11 +181,7 @@ public class ProductServiceImpl implements ProductService {
                 .findById(productUpdateServiceModel.getId())
                 .orElseThrow(() -> new ObjectNotFoundException("Product with id " + productUpdateServiceModel.getId() + " does not exist!"));
 
-        //todo replace with Mapper from MapStruct
-        productEntity.setDescription(productUpdateServiceModel.getDescription());
-        productEntity.setPrice(productUpdateServiceModel.getPrice());
-        productEntity.setName(productUpdateServiceModel.getName());
-
+        this.productMapper.mapUpdateServiceModelToEntity(productEntity, productUpdateServiceModel);
         this.productRepository.save(productEntity);
     }
 }
